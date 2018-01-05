@@ -28,6 +28,7 @@
       <bpmn:property name="__targetRef_placeholder" />
       <bpmn:dataInputAssociation id="DataInputAssociation_1ug35un">
         <bpmn:sourceRef>DataStoreReference_0zydqlo</bpmn:sourceRef>
+        <bpmn:targetRef>undefined</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ickgdf">
@@ -50,10 +51,10 @@
     <bpmn:sequenceFlow id="SequenceFlow_1yz3006" sourceRef="StartEvent_0ff7d0o" targetRef="ServiceTask_0tioitk" />
     <bpmn:sequenceFlow id="SequenceFlow_0rd1w46" sourceRef="ServiceTask_0tioitk" targetRef="ExclusiveGateway_1gfg9u2" />
     <bpmn:sequenceFlow id="SequenceFlow_1vhj0zj" name="positiv" sourceRef="ExclusiveGateway_1gfg9u2" targetRef="ExclusiveGateway_0ickgdf">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{kontoVorh==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${kontoVorh==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_09lu3j1" name="negativ" sourceRef="ExclusiveGateway_1gfg9u2" targetRef="ServiceTask_0x3vu5e">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{kontoVorh==false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${kontoVorh==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_07b189b" sourceRef="ServiceTask_0x3vu5e" targetRef="ExclusiveGateway_0ickgdf" />
     <bpmn:sequenceFlow id="SequenceFlow_0iki5rd" sourceRef="ExclusiveGateway_0ickgdf" targetRef="EndEvent_09yu4tz" />
