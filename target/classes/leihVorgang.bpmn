@@ -43,7 +43,6 @@
     <bpmn:callActivity id="Task_1rkifq1" name="Leihantrag prüfen" calledElement="subKunde">
       <bpmn:incoming>SequenceFlow_1ib3r16</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ohuo6t</bpmn:outgoing>
-      <bpmn:dataOutputAssociation />
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="SequenceFlow_0ohuo6t" sourceRef="Task_1rkifq1" targetRef="Task_02xrijt" />
     <bpmn:sendTask id="Task_1w4r4zb" name="Angebot versenden" camunda:class="Projektarbeit.MailVersenden.MailAngebotVersenden">
@@ -90,12 +89,6 @@
     <bpmn:serviceTask id="Task_02xrijt" name="Verfügbarkeit des Zeitraumes prüfen" camunda:class="Projektarbeit.leihVorgang.VerfZeitraum">
       <bpmn:incoming>SequenceFlow_0ohuo6t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11j5co2</bpmn:outgoing>
-      <bpmn:property name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation />
-      <bpmn:dataInputAssociation />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0b69euq">
-        <bpmn:sourceRef>DataStoreReference_01sngt7</bpmn:sourceRef>
-      </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_14rtkxc" sourceRef="Task_1ls8j08" targetRef="Task_1w4r4zb" />
     <bpmn:sequenceFlow id="SequenceFlow_127l19f" sourceRef="Task_1l2ko4g" targetRef="Task_1ls8j08" />
@@ -258,10 +251,6 @@
           <dc:Bounds x="506" y="-49" width="44" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0b69euq_di" bpmnElement="DataInputAssociation_0b69euq">
-        <di:waypoint xsi:type="dc:Point" x="529" y="28" />
-        <di:waypoint xsi:type="dc:Point" x="530" y="82" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1cwprht_di" bpmnElement="TextAnnotation_1cwprht">
         <dc:Bounds x="612" y="-64" width="100" height="98" />
       </bpmndi:BPMNShape>

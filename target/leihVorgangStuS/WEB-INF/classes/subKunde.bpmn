@@ -25,15 +25,9 @@
     <bpmn:serviceTask id="ServiceTask_0tioitk" name="Prüfung Kundenkonto" camunda:class="Projektarbeit.SubProc.PruefenKundenkonto">
       <bpmn:incoming>SequenceFlow_1yz3006</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0rd1w46</bpmn:outgoing>
-      <bpmn:property name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_1ug35un">
-        <bpmn:sourceRef>DataStoreReference_0zydqlo</bpmn:sourceRef>
-        <bpmn:targetRef>undefined</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ickgdf">
       <bpmn:incoming>SequenceFlow_1vhj0zj</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_07b189b</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0iki5rd</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:serviceTask id="ServiceTask_0x3vu5e" name="Anlegen Kundenkonto" camunda:class="Projektarbeit.SubProc.AnlegenKonto">
@@ -51,10 +45,10 @@
     <bpmn:sequenceFlow id="SequenceFlow_1yz3006" sourceRef="StartEvent_0ff7d0o" targetRef="ServiceTask_0tioitk" />
     <bpmn:sequenceFlow id="SequenceFlow_0rd1w46" sourceRef="ServiceTask_0tioitk" targetRef="ExclusiveGateway_1gfg9u2" />
     <bpmn:sequenceFlow id="SequenceFlow_1vhj0zj" name="positiv" sourceRef="ExclusiveGateway_1gfg9u2" targetRef="ExclusiveGateway_0ickgdf">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${kontoVorh==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{kontoVorh==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_09lu3j1" name="negativ" sourceRef="ExclusiveGateway_1gfg9u2" targetRef="ServiceTask_0x3vu5e">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${kontoVorh==false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{kontoVorh==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_07b189b" sourceRef="ServiceTask_0x3vu5e" targetRef="ExclusiveGateway_0ickgdf" />
     <bpmn:sequenceFlow id="SequenceFlow_0iki5rd" sourceRef="ExclusiveGateway_0ickgdf" targetRef="EndEvent_09yu4tz" />
@@ -145,10 +139,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="564.5" y="88" width="36" height="13" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1ug35un_di" bpmnElement="DataInputAssociation_1ug35un">
-        <di:waypoint xsi:type="dc:Point" x="393" y="138" />
-        <di:waypoint xsi:type="dc:Point" x="393" y="75" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_07b189b_di" bpmnElement="SequenceFlow_07b189b">
         <di:waypoint xsi:type="dc:Point" x="694" y="123" />
