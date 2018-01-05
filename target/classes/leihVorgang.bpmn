@@ -33,7 +33,7 @@
         <bpmn:flowNodeRef>EndEvent_0g0zhbp</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="StartEvent_1" name="Bedarfsmeldung per Formular" camunda:formKey="embedded:app:forms/datenErf.html">
+    <bpmn:startEvent id="StartEvent_1" name="Bedarfsmeldung per Formular" camunda:formKey="embedded:app:forms/start.html">
       <bpmn:extensionElements>
         <camunda:executionListener class="Projektarbeit.leihVorgang.StartListenZusammenstellen" event="start" />
       </bpmn:extensionElements>
