@@ -1,10 +1,54 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 <form class="form-horizontal">
-	
+
+	<script cam-script type="text/form-script">
+
+		$scope.openBegin = function($event) {
+				$event.preventDefault();
+				$event.stopPropagation();
+				$scope.dateFieldBeginOpened = true;
+				$scope.dateFieldEndOpened = false;
+		};
+		$scope.openEnd = function($event) {
+				$event.preventDefault();
+				$event.stopPropagation();
+				$scope.dateFieldBeginOpened = false;
+				$scope.dateFieldEndOpened = true;
+		};
+	</script>
+
+
+	<style>
+.rg-required {
+	vertical-align: super;
+	color: grey;
+	font-size: 75%;
+}
+
+.form-group select:disabled {
+	-webkit-appearance: none;
+	cursor: not-allowed;
+	background-color: #eee;
+	opacity: 1;
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border-color ease-in-out .15s, box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+</style>
+
 	<div class="form-group">
 		Anrede:
         <select cam-variable-type="String" cam-variable-name="anrede"
@@ -15,25 +59,25 @@
 	</div>
 
 	<div class="form-group">
-		<label for="vorname">Vorname:</label> 
+		<label for="vorname">Vorname:</label>
         <input class="form-control"
-            cam-variable-type="String" 
-            cam-variable-name="vorname" 
+            cam-variable-type="String"
+            cam-variable-name="vorname"
             name="vorname"
 		    required="true" />
 	</div>
 
 	<div class="form-group">
-		<label for="nachname">Nachname:</label> 
+		<label for="nachname">Nachname:</label>
         <input class="form-control"
 			   cam-variable-type="String"
                cam-variable-name="nachname"
-			   name="nachname" 
+			   name="nachname"
                required="true" />
 	</div>
 
 	<div class="form-group">
-		<label for="eMailKunde">E-Mail Adresse:</label> 
+		<label for="eMailKunde">E-Mail Adresse:</label>
         <input class="form-control"
                cam-variable-type="String"
                cam-variable-name="eMailKunde"
@@ -43,7 +87,7 @@
 	</div>
 
 	<div class="form-group">
-		<label for="matNr">Matrikelnummer:  s0</label> 
+		<label for="matNr">Matrikelnummer:  s0</label>
         <input class="form-control"
                cam-variable-type="String"
                cam-variable-name="matrikelnummer"
@@ -54,7 +98,7 @@
 	<div class="form-group">
 		<label for="adresse">Adresse:</label>
         <input class="form-control"
-               cam-variable-type="String"   
+               cam-variable-type="String"
                cam-variable-name="adresse"
                name="adresse"
                required="true" />
@@ -63,7 +107,7 @@
 	<div class="form-group">
 		<label for="plz">Postleitzahl:</label>
         <input class="form-control"
-               cam-variable-type="String"   
+               cam-variable-type="String"
                cam-variable-name="plz"
                name="plz"
                required="true" />
@@ -81,7 +125,7 @@
 	<div class="form-group">
 		Gremium:
         <select cam-variable-type="String"
-                cam-variable-name="gremium" 
+                cam-variable-name="gremium"
                 name="gremium"
                 required="true">
 			<option value="AStA">Ausschuss für Studierendenangelegenheiten</option>
@@ -100,9 +144,9 @@
 			<option value="K10ohneSub">Lautsprecher K10 ohne Subwoofer</option>
 			</select>
 	</div>
-    
+
     <div class="form-group">
-	    Beginn Leihzeitraum 
+	    Beginn Leihzeitraum
         <input class="form-control"
                cam-variable-type="String"
                cam-variable-name="leihBegin"
@@ -110,55 +154,13 @@
                datepicker-popup="yyyy.MM.dd"
                show-button-bar="false"
                onkeydown="return false;"
-               is-open="dateFieldOpened"
-               ng-click="open($event)" />
+               is-open="dateFieldBeginOpened"
+               ng-click="openBegin($event)" />
         <div role="alert"></div>
     </div>
 
-    <script cam-script type="text/form-script">
-        $scope.open = function($event) 
-        { 
-	        $event.preventDefault(); 
-	        $event.stopPropagation(); 
-	        $scope.dateFieldOpened = true; 
-        };
-    </script>
-    
-    <style>
-        .rg-required    
-            {
-               vertical-align: super;
-               color: grey;
-               font-size: 75%;
-            }
-	
-	.form-group select:disabled 
-        {
-            -webkit-appearance: none;
-            cursor: not-allowed;
-            background-color: #eee;
-            opacity: 1;
-            display: block;
-            width: 100%;
-            height: 34px;
-            padding: 6px 12px;
-            font-size: 14px;
-            line-height: 1.42857143;
-            color: #555;
-            background-image: none;
-            border: 1px solid #ccc;
-            border-radius: 0;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-            -webkit-transition: border-color ease-in-out .15s, box-shadow
-             ease-in-out .15s;
-            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
-             .15s;
-            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-        }
-    </style>
 	   <div class="form-group">
-	       Ende Leihzeitraum 
+	       Ende Leihzeitraum
             <input class="form-control"
                    cam-variable-type="String"
                    cam-variable-name="leihEnde"
@@ -166,55 +168,9 @@
                    datepicker-popup="yyyy.MM.dd"
                    show-button-bar="false"
                    onkeydown="return false;"
-                   is-open="dateFieldOpened"
-                   ng-click="open($event1)" />
-
-    <div role="alert"></div> 
-                          <script cam-script type="text/form-script">
-	  	    $scope.open = function($event1) 
-                { 
-                    $event.preventDefault(); 
-                    $event.stopPropagation(); 
-                    $scope.dateFieldOpened = true; 
-                };
-                    </script>
+                   is-open="dateFieldEndOpened"
+                   ng-click="openEnd($event)" />
+        <div role="alert"></div>
     </div>
-    
 
-
-    
-    <style>
-	   .rg-required    
-            {
-               vertical-align: super;
-               color: grey;
-               font-size: 75%;
-            }
-	
-	   .form-group select:disabled 
-            {
-                -webkit-appearance: none;
-                cursor: not-allowed;
-                background-color: #eee;
-                opacity: 1;
-                display: block;
-                width: 100%;
-                height: 34px;
-                padding: 6px 12px;
-                font-size: 14px;
-                line-height: 1.42857143;
-                color: #555;
-                background-image: none;
-                border: 1px solid #ccc;
-                border-radius: 0;
-                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-                -webkit-transition: border-color ease-in-out .15s, box-shadow
-                 ease-in-out .15s;
-                -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
-                 .15s;
-                transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-            }
-    </style>
-    
 </form>
