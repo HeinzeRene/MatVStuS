@@ -1,6 +1,7 @@
 package Projektarbeit.SubProc;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,41 +11,44 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
+
 public class PruefenKundenkonto implements JavaDelegate{
 
 	private String eMailAdresse;
 	private boolean kontoVorh;
 	private static final Logger L =  (Logger) LoggerFactory.getLogger(PruefenKundenkonto.class);
 	
-	private Connection connection;
-		public void setConnection(Connection connection) {
-		this.connection = connection;
-	}//end of connection
 	
-	private Connection getConnection() {
-		if (connection == null) {
-			try {
-				throw new Exception("Connection not set");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return connection;
-	}//end of getConnection
 	@Override
-	public void execute(DelegateExecution arg0) throws Exception {
+	public void execute(DelegateExecution execute) throws Exception {
 		// TODO Auto-generated method stub
-		
-	}
-	private boolean getPerson() throws Exception {
+		Connection conn = null;
+		try {
+			L.info("* Treiber laden");
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+		} catch (Exception e) {
+			L.error("Unable to load driver.");
+			e.printStackTrace();
+		}
+		try {
+			L.info("* Verbindung aufbauen");
+			String url = "jdbc:mysql://" + Datenbankzugang.hostname + ":" + Datenbankzugang.port + "/" + Datenbankzugang.dbname;
+			conn = DriverManager.getConnection(url, Datenbankzugang.user, Datenbankzugang.password);
 			
+			
+			
+		} catch (SQLException sqle) {
+			L.error("SQLException: " + sqle.getMessage() + "/n SQLState: " + sqle.getSQLState() + " VendorError: " + sqle.getErrorCode());
+
+		}
 		L.info("Start Auslesen von Kundendaten");
 		String sql = "select * person from where vorname = ? and nachname is ?";
-		L.info("SQL Anfrage: " + sql);
-		try(PreparedStatement ps = connection.prepareStatement(sql)){
-			ps.setString(1, "vorname");
-			ps.setString(2, "nachname");
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, (String)execute.getVariable("vorname"));
+			ps.setString(2, (String)execute.getVariable("nachname"));
+			L.info("SQL Anfrage: " + ps.toString());
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next()) {
 					eMailAdresse = rs.getString("eMailAdresse");
@@ -61,11 +65,15 @@ public class PruefenKundenkonto implements JavaDelegate{
 		
 		if(eMailAdresse == null) {
 			kontoVorh = false;	
+			L.info("Es gibt KEIN Konto mit der E-Mail adresse");
 		}else {
 			kontoVorh = true;
-		}	
-		return kontoVorh;
-	}//end of getPerson
+			L.info("Es gibt EIN Konto mit der E-Mail adresse");
+		}
+		
+		execute.setVariable("kontoVorh",kontoVorh);
+	}
+	
 
 	
 }//end of class
