@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -43,9 +45,15 @@ public class PruefenKundenkonto implements JavaDelegate{
 
 		}
 		L.info("Start Auslesen von Kundendaten");
-		String sql = "select * person from where vorname = ? and nachname is ?";
-		
+		String sql = "select * from Person where vorname = ? and nachname = ?";
+		Set<String> vars = execute.getVariableNames();
+		Iterator<String> it = vars.iterator();
+		while(it.hasNext())
+		{
+			L.info("Variable: " + it.next());
+		}
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			
 			ps.setString(1, (String)execute.getVariable("vorname"));
 			ps.setString(2, (String)execute.getVariable("nachname"));
 			L.info("SQL Anfrage: " + ps.toString());

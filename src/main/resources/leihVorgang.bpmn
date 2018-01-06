@@ -41,6 +41,10 @@
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1ib3r16" sourceRef="StartEvent_1" targetRef="Task_1rkifq1" />
     <bpmn:callActivity id="Task_1rkifq1" name="Leihantrag prüfen" calledElement="subKunde">
+      <bpmn:extensionElements>
+        <camunda:in source="nachname" target="nachname" />
+        <camunda:in source="vorname" target="vorname" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ib3r16</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ohuo6t</bpmn:outgoing>
     </bpmn:callActivity>

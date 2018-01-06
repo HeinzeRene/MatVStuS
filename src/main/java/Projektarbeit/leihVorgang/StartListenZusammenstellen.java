@@ -30,7 +30,7 @@ public class StartListenZusammenstellen implements JavaDelegate {
 			L.info("* Verbindung aufbauen");
 			String url = "jdbc:mysql://" + Datenbankzugang.hostname + ":" + Datenbankzugang.port + "/" + Datenbankzugang.dbname;
 			conn = DriverManager.getConnection(url, Datenbankzugang.user, Datenbankzugang.password);
-			arg0.setVariable("connection", conn);
+			
 			
 			
 		} catch (SQLException sqle) {
