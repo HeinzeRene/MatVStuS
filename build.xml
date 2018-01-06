@@ -20,7 +20,7 @@
 
 	<target name="copy.war.into.jboss">
 		<fail unless="deploy.jboss.dir" message="No deployment folder has been configured. Please copy the file '${basedir}/build.properties.example' to '${basedir}/build.properties' or '${user.home}/.camunda/build.properties' and change it according to your environment." />
-		<copy file="${target.dir}/${ant.project.name}.war" todir="${deploy.jboss.dir}" />
+		<copy file="${target.dir}/${ant.project.name}.war" todir="/Users/Marwin/Desktop/StarterPaket/camunda-bpm-wildfly10-7.7.0/server/wildfly-10.1.0.Final/standalone/deployments" />
 	</target>
 
 	<target name="undeploy.jboss" description="Deletes the process application from the deployment directory defined in '${basedir}/build.properties' or '${user.home}/.camunda/build.properties'">

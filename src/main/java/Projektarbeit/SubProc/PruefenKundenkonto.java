@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.slf4j.LoggerFactory;
-import ch.qos.logback.classic.Logger;
 
-public class PruefenKundenkonto {
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class PruefenKundenkonto implements JavaDelegate{
 
 	private String eMailAdresse;
 	private boolean kontoVorh;
@@ -29,18 +32,23 @@ public class PruefenKundenkonto {
 		}
 		return connection;
 	}//end of getConnection
-	
+	@Override
+	public void execute(DelegateExecution arg0) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	private boolean getPerson() throws Exception {
 			
 		L.info("Start Auslesen von Kundendaten");
 		String sql = "select * person from where vorname = ? and nachname is ?";
-		L.info(sql);
+		L.info("SQL Anfrage: " + sql);
 		try(PreparedStatement ps = connection.prepareStatement(sql)){
 			ps.setString(1, "vorname");
 			ps.setString(2, "nachname");
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next()) {
 					eMailAdresse = rs.getString("eMailAdresse");
+					L.info("E-Mail Adresse ist: " + eMailAdresse);
 				}
 			}catch  (SQLException e) {
 			L.error(""+e);
@@ -58,4 +66,6 @@ public class PruefenKundenkonto {
 		}	
 		return kontoVorh;
 	}//end of getPerson
+
+	
 }//end of class
