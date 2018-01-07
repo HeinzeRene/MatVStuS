@@ -12,11 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
-import Projektarbeit.SubProc.PruefenKundenkonto;
 
-public class EndeStartForumlar implements JavaDelegate {
+public class EndeStartFormular implements JavaDelegate {
 
-	private static final Logger L =  (Logger) LoggerFactory.getLogger(PruefenKundenkonto.class);
+	private static final Logger L =  (Logger) LoggerFactory.getLogger(EndeStartFormular.class);
 	@Override
 	public void execute(DelegateExecution execute) throws Exception {
 		// TODO Auto-generated method stub
