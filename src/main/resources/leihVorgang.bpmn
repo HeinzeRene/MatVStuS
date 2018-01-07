@@ -36,6 +36,7 @@
     <bpmn:startEvent id="StartEvent_1" name="Bedarfsmeldung per Formular" camunda:formKey="embedded:app:forms/start.html">
       <bpmn:extensionElements>
         <camunda:executionListener class="Projektarbeit.leihVorgang.StartListenZusammenstellen" event="start" />
+        <camunda:executionListener class="Projektarbeit.leihVorgang.EndeStartFormular" event="end" />
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_1ib3r16</bpmn:outgoing>
     </bpmn:startEvent>
