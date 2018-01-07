@@ -90,7 +90,7 @@
 		<label for="matNr">Matrikelnummer:  s0</label>
         <input class="form-control"
                cam-variable-type="String"
-               cam-variable-name="matrikelnummer"
+               cam-variable-name="matNr"
                name="matNr"
 							 pattern="[0-9]{6}"
                required="true" />
@@ -116,11 +116,11 @@
 	</div>
 
 	<div class="form-group">
-		<label for="ort">Wohnort:</label>
+		<label for="wohnort">Wohnort:</label>
         <input class="form-control"
                cam-variable-type="String"
                cam-variable-name="wohnort"
-               name="ort"
+               name="wohnort"
                required="true" />
 	</div>
 
@@ -130,10 +130,10 @@
                 cam-variable-name="gremium"
                 name="gremium"
                 required="true">
-			<option value="AStA">Ausschuss für Studierendenangelegenheiten</option>
+			<option value="AStA">Ausschuss f&uumlr Studierendenangelegenheiten</option>
 			<option value="StuPa">Studierndenparlament</option>
 			<option value="FSR">Fachschaftsrat allgemein</option>
-            <option value="Ini Kopfbau">Initiative Kopfbau</option>
+      <option value="Ini Kopfbau">Initiative Kopfbau</option>
 		</select>
 	</div>
 
@@ -151,8 +151,8 @@
 	    Beginn Leihzeitraum
         <input class="form-control"
                cam-variable-type="String"
-               cam-variable-name="leihBegin"
-               name="leihBegin"
+               cam-variable-name="leihBeginn"
+               name="leihBeginn"
                datepicker-popup="yyyy.MM.dd"
                show-button-bar="false"
                onkeydown="return false;"
