@@ -18,23 +18,23 @@
       <input id="InputClause_06lc9bg" label="gremiumBool" camunda:inputVariable="gremiumBool">
         <inputExpression id="LiteralExpression_0k684o2" typeRef="boolean" />
       </input>
-      <output id="output1" label="kaution" name="" typeRef="integer" />
+      <output id="output1" label="kautionProzent" name="" typeRef="integer" />
       <rule id="row-752616073-1">
-        <description>50% Kaution vom Beschaffungspreis</description>
+        <description>20% Kaution vom Beschaffungspreis</description>
         <inputEntry id="UnaryTests_0cw29j4">        <text>false</text>
 </inputEntry>
         <inputEntry id="UnaryTests_0u066b5">        <text>false</text>
 </inputEntry>
-        <outputEntry id="LiteralExpression_1rcd8hs">        <text>50</text>
+        <outputEntry id="LiteralExpression_1rcd8hs">        <text>20</text>
 </outputEntry>
       </rule>
       <rule id="row-752616073-2">
-        <description>25% Kaution vom Beschaffungspreis</description>
+        <description>10% Kaution vom Beschaffungspreis</description>
         <inputEntry id="UnaryTests_1c1fypo">        <text>true</text>
 </inputEntry>
         <inputEntry id="UnaryTests_00eevaz">        <text>false</text>
 </inputEntry>
-        <outputEntry id="LiteralExpression_0v0z8d7">        <text>25</text>
+        <outputEntry id="LiteralExpression_0v0z8d7">        <text>10</text>
 </outputEntry>
       </rule>
       <rule id="row-752616073-3">
@@ -44,6 +44,47 @@
         <inputEntry id="UnaryTests_0zw73lo">        <text>true</text>
 </inputEntry>
         <outputEntry id="LiteralExpression_1pc752v">        <text>0</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_199wg6b" name="preis">
+    <extensionElements>
+      <biodi:bounds x="532" y="220" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <decision id="KautionPreis" name="KautionPreis">
+    <extensionElements>
+      <biodi:bounds x="344" y="90" width="180" height="80" />
+      <biodi:edge source="Kaution_Proz">
+        <biodi:waypoints x="339" y="200" />
+        <biodi:waypoints x="376" y="170" />
+      </biodi:edge>
+      <biodi:edge source="InputData_199wg6b">
+        <biodi:waypoints x="562" y="220" />
+        <biodi:waypoints x="491" y="170" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredDecision href="#Kaution_Proz" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_199wg6b" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_15ymzlg">
+      <input id="InputClause_0qenfyf" label="kautionProzent">
+        <inputExpression id="LiteralExpression_0g7mk4a" typeRef="integer" />
+      </input>
+      <input id="InputClause_1k915l9" label="preis">
+        <inputExpression id="LiteralExpression_1hxhrb0" typeRef="double" />
+      </input>
+      <output id="OutputClause_0w99xq6" label="kaution" typeRef="double" />
+      <rule id="row-66035789-1">
+        <inputEntry id="UnaryTests_0jbusrc">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1sp8k2a">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0nxlgbv">        <text>kautionProzent*preis/100</text>
 </outputEntry>
       </rule>
     </decisionTable>

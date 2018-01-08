@@ -14,7 +14,6 @@ public class MailNachfrageAngebot implements JavaDelegate {
 		String anrede = (String) execution.getVariable("anrede");
 		String vorname = (String) execution.getVariable("vorname");
 		String nachname = (String) execution.getVariable("nachname");
-		String taetigkeit = (String) execution.getVariable("taetigkeit");
 		String email = (String) execution.getVariable("email");
 
 		/*
