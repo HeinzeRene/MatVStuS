@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -42,18 +43,19 @@ public class VerfZeitraum implements JavaDelegate{
 			L.error("SQLException: " + sqle.getMessage() + "/n SQLState: " + sqle.getSQLState() + " VendorError: " + sqle.getErrorCode());
 
 		}
-		String anfang = (String)execute.getVariable("leihAnfang");
+		String anfang = (String)execute.getVariable("leihBeginn");
 		
 		String ende = (String)execute.getVariable("leihEnde");
-		
+		L.info("Leihzeitraum Anfang: " + anfang + " Ende: " + ende);
 		Zeitraum leihe = new Zeitraum(anfang, ende);
 		L.info("Start Auslesen der MaterialExemplare");
 		
-		String sql = "select * from MaterialExemplar me INNER JOIN materialLeihschein ml ON ml.matExpId = me.matExpId INNER JOIN Leihschein l ON ml.leihscheinnummer = l.leihschein where materialArt = ?";
+		String sql = "select * from MaterialExemplar me LEFT JOIN materialLeihschein ml ON ml.matExpId = me.matExpId LEFT JOIN Leihschein l ON ml.leihscheinnummer = l.leihschein where materialArt = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			
 			ps.setInt(1, (int)execute.getVariable("matArtID"));
 			L.info("SQL Anfrage: " + ps.toString());
+			ArrayList<Integer> verfuegbar = new ArrayList<Integer>();
 			try(ResultSet rs = ps.executeQuery()){
 				
 				if(rs.next())
@@ -61,10 +63,12 @@ public class VerfZeitraum implements JavaDelegate{
 					do
 					{
 						Zeitraum mat = new Zeitraum(rs.getTimestamp("anfangausleihe"), rs.getTimestamp("endeausleihe"));
-						if(!mat.ueberschneidung(leihe))
+						if(rs.getTimestamp("anfangausleihe")==null||!mat.ueberschneidung(leihe))
 						{
-							L.info("MatID: " + rs.getInt("idMatExp") + " Seriennummer: " + rs.getInt(columnIndex));
+							L.info("MatID: " + rs.getInt("idMatExp") + " Seriennummer: " + rs.getInt("seriennummer"));
+							verfuegbar.add(rs.getInt("idMatExp"));
 						}
+						
 					}while(rs.next());
 				}
 				

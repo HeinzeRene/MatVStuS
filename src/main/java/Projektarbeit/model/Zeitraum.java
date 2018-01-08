@@ -19,8 +19,12 @@ public class Zeitraum {
 	}
 	public Zeitraum(String anfang, String ende)
 	{
-		this.anfang = Timestamp.valueOf(anfang.replace('.', '-'));
-		this.ende = Timestamp.valueOf(ende.replace('.', '-'));
+		String[] anf = anfang.split(".");
+		String[] end = ende.split(".");
+		System.out.println(anf.length);
+		System.out.println(end.length);
+		this.anfang = Timestamp.valueOf(anf[2]+"-"+anf[1]+"-"+anf[0]);
+		this.ende = Timestamp.valueOf(end[2]+"-"+end[1]+"-"+end[0]);
 	}
 	
 	public boolean ueberschneidung(Zeitraum z2)

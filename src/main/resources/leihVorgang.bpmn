@@ -112,7 +112,7 @@
       <bpmn:outgoing>SequenceFlow_1ub6nvi</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1ub6nvi" sourceRef="ExclusiveGateway_1j9dj73" targetRef="Task_1tm01p6">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${verfZeit==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${verfZeit==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_0dorg3p" name="Anfrage zuende">
       <bpmn:incoming>SequenceFlow_1w03z5g</bpmn:incoming>

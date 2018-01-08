@@ -49,7 +49,7 @@ public class EndeStartFormular implements JavaDelegate {
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next())
 				{
-					int matArtID = rs.getInt("materialArtID");
+					int matArtID = rs.getInt("idMatArt");
 					L.info("MaterialArtID: " + matArtID);
 					execute.setVariable("matArtID", matArtID);
 				}
