@@ -22,15 +22,19 @@ public class Zeitraum {
 		String[] anf = anfang.split("\\.");
 		String[] end = ende.split("\\.");
 		this.anfang = Timestamp.valueOf(anf[2]+"-"+anf[1]+"-"+anf[0] + " 00:00:00");
-		this.ende = Timestamp.valueOf(end[2]+"-"+end[1]+"-"+end[0] + " 00:00:00");
+		this.ende = Timestamp.valueOf(end[2]+"-"+end[1]+"-"+end[0] + " 23:59:59");
 	}
 	
 	public boolean ueberschneidung(Zeitraum z2)
 	{
-		if(this.ende.compareTo(z2.anfang)>0||this.anfang.compareTo(z2.ende)<0)
+		if(this.ende.compareTo(z2.anfang)<0||this.anfang.compareTo(z2.ende)>0) 
+		{
 			return false;
-		else
+		}
+		else 
+		{
 			return true;
+		}
 	}
 	public String toString()
 	{

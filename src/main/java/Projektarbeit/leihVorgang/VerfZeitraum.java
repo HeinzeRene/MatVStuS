@@ -63,18 +63,41 @@ public class VerfZeitraum implements JavaDelegate{
 				{
 					do
 					{
-						int matArtID = rs.getInt("materialArt");
-						if(!verfuegbar.contains(matArtID)&&!nichtVerfuegbar.contains(matArtID))
+						int matArtID = rs.getInt("idMatExp");
+						if(!nichtVerfuegbar.contains(matArtID))
 						{
 							Zeitraum mat = new Zeitraum(rs.getTimestamp("anfangausleihe"), rs.getTimestamp("endeausleihe"));
-							L.info("Überpruefung von leihzeitraum: " + leihe + " und leihschein: " + mat);
-							if(rs.getTimestamp("anfangausleihe")==null||!mat.ueberschneidung(leihe))
+							if(rs.getTimestamp("anfangausleihe")!=null)
 							{
-								L.info("MatID: " + rs.getInt("idMatExp") + " Seriennummer: " + rs.getLong("seriennummer"));
-								verfuegbar.add(rs.getInt("idMatExp"));
+								if(!leihe.ueberschneidung(mat))
+								{
+									L.info("Überpruefung von leihzeitraum: " + leihe + " und leihschein: " + mat + " erg: " + leihe.ueberschneidung(mat));
+									if(!verfuegbar.contains(matArtID))
+									{
+										L.info(matArtID + "wird als verfuegbar angenommen");
+										verfuegbar.add(rs.getInt("idMatExp"));
+									}
+									else
+									{
+										L.info(matArtID + "ist bereits verfuegbar");
+									}
+								}
+								else
+								{
+									L.info(matArtID + " ist nicht verfuegbar");
+									if(verfuegbar.contains(matArtID))
+									{
+										L.info(matArtID + " wird nicht mehr als verfuegbar angenommen");
+										verfuegbar.remove(matArtID);
+									}
+									nichtVerfuegbar.add(rs.getInt("idMatExp"));
+								}
 							}
 							else
-								nichtVerfuegbar.add(rs.getInt("idMatExp"));
+							{
+								L.info(matArtID + " wurde noch nie gebucht und ist damit verfuegbar.");
+								verfuegbar.add(rs.getInt("idMatExp"));
+							}
 						}
 						
 					}while(rs.next());
@@ -82,7 +105,7 @@ public class VerfZeitraum implements JavaDelegate{
 				
 				if(verfuegbar.isEmpty())
 				{
-					L.info("Kein Material der MaterialArt: " + (int)execute.getVariable("marArtID") + " verfügbar im Zeitraum: "+ anfang +  "<->" + ende);
+					L.info("Kein Material der MaterialArt: " + (int)execute.getVariable("matArtID") + " verfügbar im Zeitraum: "+ anfang +  "<->" + ende);
 					execute.setVariable("verfZeit", false);
 				}
 				else
