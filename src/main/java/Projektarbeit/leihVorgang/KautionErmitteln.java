@@ -9,29 +9,20 @@ public class KautionErmitteln implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
 
-		boolean gremium = false;
-		boolean student = false;
-		double preis = 0;
-		int anteilKaution = (int) execution.getVariable("ProzKaution");
-		int kaution = -1;
+		double 	preis = (double) execution.getVariable("wert");
+		execution.setVariable("Preis", preis);
 		
 		if ((String) execution.getVariable("matNr")!= null) {
-			student = true;
+			execution.setVariable("student?", false);
+		} else {
+			execution.setVariable("student?", true);
 		}
+		
 		if ((String) execution.getVariable("gremium") != null) {
-			gremium = true;
+			execution.setVariable("gremium?", false);
+		}else {
+			execution.setVariable("gremium?", true);
 		}
-		
-		
-		execution.setVariable("gremium?", gremium);
-		execution.setVariable("student?", student);
-		
-		preis = (double) execution.getVariable("wert");
-		kaution = ((int) preis) * (anteilKaution/100);
-		
-		execution.setVariable("kaution", kaution);
-		
-		
-	}
+	}// end of execute
 
 }

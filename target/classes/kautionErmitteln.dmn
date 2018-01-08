@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="definitions_0h3u5b5" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
-  <decision id="decision" name="Kaution_Ermitteln">
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0h3u5b5" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Kaution_Proz" name="Kaution_Proz">
     <extensionElements>
       <biodi:bounds x="200" y="200" width="180" height="80" />
     </extensionElements>
     <decisionTable id="decisionTable">
-      <input id="input1" label="student?">
+      <input id="input1" label="student?" camunda:inputVariable="student?">
         <inputExpression id="inputExpression1" typeRef="boolean" />
       </input>
-      <input id="InputClause_06lc9bg" label="gremium?">
+      <input id="InputClause_06lc9bg" label="gremium?" camunda:inputVariable="gremium?">
         <inputExpression id="LiteralExpression_0k684o2" typeRef="boolean" />
       </input>
-      <output id="output1" label="kaution" name="" typeRef="double" />
+      <output id="output1" label="ProzKaution" name="" typeRef="double" />
       <rule id="row-752616073-1">
         <description>50% Kaution vom Beschaffungspreis</description>
         <inputEntry id="UnaryTests_0cw29j4">        <text>false</text>
@@ -40,5 +40,39 @@
 </outputEntry>
       </rule>
     </decisionTable>
+  </decision>
+  <inputData id="InputData_12gfc16" name="Preis">
+    <extensionElements>
+      <biodi:bounds x="440.9500792393027" y="201.47068145800318" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <decision id="Kaution_ermitteln_Wert" name="Kaution_ermitteln_Wert">
+    <extensionElements>
+      <biodi:bounds x="336" y="58" width="180" height="80" />
+      <biodi:edge source="">
+        <biodi:waypoints x="326" y="200" />
+        <biodi:waypoints x="381" y="138" />
+      </biodi:edge>
+      <biodi:edge source="InputData_12gfc16">
+        <biodi:waypoints x="489" y="201" />
+        <biodi:waypoints x="450" y="138" />
+      </biodi:edge>
+      <biodi:edge source="Kaution_Proz">
+        <biodi:waypoints x="327" y="200" />
+        <biodi:waypoints x="384" y="138" />
+      </biodi:edge>
+    </extensionElements>
+    <variable id="InformationItem_18rkjbx" name="kautionEnde" typeRef="double" />
+    <informationRequirement>
+      <requiredDecision href="#" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_12gfc16" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredDecision href="#Kaution_Proz" />
+    </informationRequirement>
+    <literalExpression id="LiteralExpression_0f02cta" expressionLanguage="feel">    <text>return wert*(ProzKaution/100)</text>
+</literalExpression>
   </decision>
 </definitions>
