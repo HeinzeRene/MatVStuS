@@ -50,12 +50,13 @@ public class VerfZeitraum implements JavaDelegate{
 		Zeitraum leihe = new Zeitraum(anfang, ende);
 		L.info("Start Auslesen der MaterialExemplare");
 		
-		String sql = "select * from MaterialExemplar me LEFT JOIN materialLeihschein ml ON ml.matExpId = me.matExpId LEFT JOIN Leihschein l ON ml.leihscheinnummer = l.leihschein where materialArt = ?";
+		String sql = "select * from MaterialExemplar me LEFT JOIN materialLeihschein ml ON ml.idMatExp = me.idMatExp LEFT JOIN leihschein l ON ml.leihscheinnummer = l.leihscheinnummer where materialArt = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			
 			ps.setInt(1, (int)execute.getVariable("matArtID"));
 			L.info("SQL Anfrage: " + ps.toString());
 			ArrayList<Integer> verfuegbar = new ArrayList<Integer>();
+			ArrayList<Integer> nichtVerfuegbar = new ArrayList<Integer>();
 			try(ResultSet rs = ps.executeQuery()){
 				
 				if(rs.next())
@@ -63,13 +64,26 @@ public class VerfZeitraum implements JavaDelegate{
 					do
 					{
 						Zeitraum mat = new Zeitraum(rs.getTimestamp("anfangausleihe"), rs.getTimestamp("endeausleihe"));
-						if(rs.getTimestamp("anfangausleihe")==null||!mat.ueberschneidung(leihe))
+						L.info("Überpruefung von leihzeitraum: " + leihe + " und leihschein: " + mat);
+						if((rs.getTimestamp("anfangausleihe")==null||!mat.ueberschneidung(leihe))&&!verfuegbar.contains(rs.getInt("idMatExp")))
 						{
-							L.info("MatID: " + rs.getInt("idMatExp") + " Seriennummer: " + rs.getInt("seriennummer"));
+							L.info("MatID: " + rs.getInt("idMatExp") + " Seriennummer: " + rs.getLong("seriennummer"));
 							verfuegbar.add(rs.getInt("idMatExp"));
 						}
 						
 					}while(rs.next());
+				}
+				
+				if(verfuegbar.isEmpty())
+				{
+					L.info("Kein Material der MaterialArt: " + (int)execute.getVariable("marArtID") + " verfügbar im Zeitraum: "+ anfang +  "<->" + ende);
+					execute.setVariable("verfZeit", false);
+				}
+				else
+				{
+					execute.setVariable("verfZeit", true);
+					execute.setVariable("matExemplarID", verfuegbar.get(0));
+					
 				}
 				
 			}catch  (SQLException e) {

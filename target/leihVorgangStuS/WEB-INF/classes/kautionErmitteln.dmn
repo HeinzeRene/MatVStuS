@@ -2,13 +2,13 @@
 <definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="definitions_0h3u5b5" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
   <decision id="decision" name="Kaution_Ermitteln">
     <decisionTable id="decisionTable">
-      <input id="input1" label="Student der HTW Berlin?">
+      <input id="input1" label="student?">
         <inputExpression id="inputExpression1" typeRef="boolean" />
       </input>
-      <input id="InputClause_06lc9bg" label="Gremiumangehöriger?">
+      <input id="InputClause_06lc9bg" label="gremium?">
         <inputExpression id="LiteralExpression_0k684o2" typeRef="boolean" />
       </input>
-      <output id="output1" label="Kautions in %" name="" typeRef="integer" />
+      <output id="output1" label="kaution" name="" typeRef="integer" />
       <rule id="row-752616073-1">
         <inputEntry id="UnaryTests_0cw29j4">        <text>false</text>
 </inputEntry>
