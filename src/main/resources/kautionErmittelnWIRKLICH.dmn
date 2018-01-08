@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="kautionErmitteln" name="kautionErmitteln" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Kaution_Proz" name="Kaution_Proz">
+    <extensionElements>
+      <biodi:bounds x="200" y="200" width="180" height="80" />
+      <biodi:edge source="InputData_17v8lfx">
+        <biodi:waypoints x="420" y="333" />
+        <biodi:waypoints x="346" y="280" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_17v8lfx" />
+    </informationRequirement>
+    <decisionTable id="decisionTable">
+      <input id="input1" label="studentBool" camunda:inputVariable="studentBool">
+        <inputExpression id="inputExpression1" typeRef="boolean" />
+      </input>
+      <input id="InputClause_06lc9bg" label="gremiumBool" camunda:inputVariable="gremiumBool">
+        <inputExpression id="LiteralExpression_0k684o2" typeRef="boolean" />
+      </input>
+      <output id="output1" label="kaution" name="" typeRef="integer" />
+      <rule id="row-752616073-1">
+        <description>50% Kaution vom Beschaffungspreis</description>
+        <inputEntry id="UnaryTests_0cw29j4">        <text>false</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0u066b5">        <text>false</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1rcd8hs">        <text>50</text>
+</outputEntry>
+      </rule>
+      <rule id="row-752616073-2">
+        <description>25% Kaution vom Beschaffungspreis</description>
+        <inputEntry id="UnaryTests_1c1fypo">        <text>true</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_00eevaz">        <text>false</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0v0z8d7">        <text>25</text>
+</outputEntry>
+      </rule>
+      <rule id="row-752616073-3">
+        <description>0% Kaution vom Beschaffungspreis</description>
+        <inputEntry id="UnaryTests_1ua9gm9">        <text>true</text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0zw73lo">        <text>true</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1pc752v">        <text>0</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
