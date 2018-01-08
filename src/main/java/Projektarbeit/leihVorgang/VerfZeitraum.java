@@ -63,12 +63,18 @@ public class VerfZeitraum implements JavaDelegate{
 				{
 					do
 					{
-						Zeitraum mat = new Zeitraum(rs.getTimestamp("anfangausleihe"), rs.getTimestamp("endeausleihe"));
-						L.info("Überpruefung von leihzeitraum: " + leihe + " und leihschein: " + mat);
-						if((rs.getTimestamp("anfangausleihe")==null||!mat.ueberschneidung(leihe))&&!verfuegbar.contains(rs.getInt("idMatExp")))
+						int matArtID = rs.getInt("materialArt");
+						if(!verfuegbar.contains(matArtID)&&!nichtVerfuegbar.contains(matArtID))
 						{
-							L.info("MatID: " + rs.getInt("idMatExp") + " Seriennummer: " + rs.getLong("seriennummer"));
-							verfuegbar.add(rs.getInt("idMatExp"));
+							Zeitraum mat = new Zeitraum(rs.getTimestamp("anfangausleihe"), rs.getTimestamp("endeausleihe"));
+							L.info("Überpruefung von leihzeitraum: " + leihe + " und leihschein: " + mat);
+							if(rs.getTimestamp("anfangausleihe")==null||!mat.ueberschneidung(leihe))
+							{
+								L.info("MatID: " + rs.getInt("idMatExp") + " Seriennummer: " + rs.getLong("seriennummer"));
+								verfuegbar.add(rs.getInt("idMatExp"));
+							}
+							else
+								nichtVerfuegbar.add(rs.getInt("idMatExp"));
 						}
 						
 					}while(rs.next());
@@ -83,6 +89,11 @@ public class VerfZeitraum implements JavaDelegate{
 				{
 					execute.setVariable("verfZeit", true);
 					execute.setVariable("matExemplarID", verfuegbar.get(0));
+					L.info("verfuegbar im Zeitraum: ");
+					for(int i:verfuegbar)
+					{
+						L.info(""+ i);
+					}
 					
 				}
 				
