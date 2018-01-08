@@ -81,13 +81,7 @@
     <bpmn:businessRuleTask id="Task_0dlxb2j" name="Kaution ermitteln" camunda:resultVariable="kautionEnde" camunda:decisionRef="Kaution_Proz">
       <bpmn:incoming>SequenceFlow_1mq0422</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1989us7</bpmn:outgoing>
-      <bpmn:property id="Property_13ew99u" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_04635m1">
-        <bpmn:sourceRef>DataStoreReference_07vztx1</bpmn:sourceRef>
-        <bpmn:targetRef>Property_13ew99u</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
     </bpmn:businessRuleTask>
-    <bpmn:dataStoreReference id="DataStoreReference_07vztx1" name="Kundendatenbank" />
     <bpmn:sendTask id="Task_14bndrl" name="Nachfrage über Angebotsannahme" camunda:class="Projektarbeit.MailVersenden.MailNachfrageAngebot">
       <bpmn:incoming>SequenceFlow_1hmdgma</bpmn:incoming>
     </bpmn:sendTask>
@@ -309,16 +303,6 @@
           <dc:Bounds x="1986" y="144" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataStoreReference_07vztx1_di" bpmnElement="DataStoreReference_07vztx1">
-        <dc:Bounds x="855" y="-22" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="835" y="-48" width="90" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="DataInputAssociation_04635m1_di" bpmnElement="DataInputAssociation_04635m1">
-        <di:waypoint xsi:type="dc:Point" x="880" y="28" />
-        <di:waypoint xsi:type="dc:Point" x="880" y="82" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_1d9ghvp_di" bpmnElement="EndEvent_1d9ghvp">
         <dc:Bounds x="2013" y="-15" width="36" height="36" />
         <bpmndi:BPMNLabel>

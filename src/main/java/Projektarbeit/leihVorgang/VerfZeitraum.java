@@ -23,6 +23,21 @@ public class VerfZeitraum implements JavaDelegate{
 	public void execute(DelegateExecution execute) throws Exception {
 		// TODO Auto-generated method stub
 		
+		double 	preis = (double) execute.getVariable("wert");
+		execute.setVariable("Preis", preis);
+		
+		if ((String) execute.getVariable("matNr")!= null) {
+			execute.setVariable("student?", false);
+		} else {
+			execute.setVariable("student?", true);
+		}
+		
+		if ((String) execute.getVariable("gremium") != null) {
+			execute.setVariable("gremium?", false);
+		}else {
+			execute.setVariable("gremium?", true);
+		}
+		
 		
 		Connection conn = null;
 		try {
@@ -128,6 +143,8 @@ public class VerfZeitraum implements JavaDelegate{
 		} catch (SQLException e) {	
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	
