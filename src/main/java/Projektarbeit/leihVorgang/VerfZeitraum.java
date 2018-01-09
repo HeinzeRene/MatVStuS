@@ -149,7 +149,7 @@ public class VerfZeitraum implements JavaDelegate{
 				}
 			}
 		}
-		int idPerson = (int)execute.getVariable("idPerson");
+		int idPerson = (Integer)execute.getVariable("idPerson");
 		sql = "SELECT matrikelnummer FROM Person WHERE idPerson = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{

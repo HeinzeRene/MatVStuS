@@ -58,6 +58,7 @@ public class PruefenKundenkonto implements JavaDelegate{
 					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailKunde") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
 					execute.setVariable("idPerson", rs.getInt("idPerson"));
 					isIdPerson = true;
+					
 				}
 			}catch  (SQLException e) {
 			L.error(""+e);
@@ -68,7 +69,7 @@ public class PruefenKundenkonto implements JavaDelegate{
 			e.printStackTrace();
 		}
 		
-		if(isIdPerson) {
+		if(!isIdPerson) {
 			kontoVorh = false;	
 			L.info("Es gibt KEIN Konto mit der E-Mail adresse");
 		}else {
