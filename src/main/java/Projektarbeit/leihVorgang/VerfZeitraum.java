@@ -192,7 +192,8 @@ public class VerfZeitraum implements JavaDelegate{
 				}
 				else
 				{
-					L.warn("Es gibt keine Person mit dieser idPerson: " + idPerson + " gremiuimBool wird auf false gesetzt");
+					L.warn("Die Person: " + idPerson + " ist nicht Teil eines Gremium - gremiumBool wird auf false gesetzt");
+					execute.setVariable("gremiumBool", false);
 				}
 			}
 		
