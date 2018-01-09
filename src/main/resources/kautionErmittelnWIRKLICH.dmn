@@ -72,7 +72,7 @@
     <informationRequirement>
       <requiredInput href="#preis" />
     </informationRequirement>
-    <literalExpression id="LiteralExpression_1xamp0t" expressionLanguage="javascript">    <text>return KautionProzent;</text>
+    <literalExpression id="LiteralExpression_1xamp0t" expressionLanguage="javascript">    <text>Kaution_Proz.kautionProzent*preis/100;</text>
 </literalExpression>
   </decision>
 </definitions>

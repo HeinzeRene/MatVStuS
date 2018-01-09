@@ -90,7 +90,7 @@ public class VerfZeitraum implements JavaDelegate{
 									if(verfuegbar.contains(matArtID))
 									{
 										L.info(matArtID + " wird nicht mehr als verfuegbar angenommen");
-										verfuegbar.remove(matArtID);
+										verfuegbar.remove(new Integer(matArtID));
 									}
 									nichtVerfuegbar.add(rs.getInt("idMatExp"));
 								}
