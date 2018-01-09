@@ -45,6 +45,12 @@
       <bpmn:extensionElements>
         <camunda:in source="nachname" target="nachname" />
         <camunda:in source="vorname" target="vorname" />
+        <camunda:in source="anrede" target="anrede" />
+        <camunda:in source="adresse" target="adresse" />
+        <camunda:in source="plz" target="plz" />
+        <camunda:in source="wohnort" target="wohnort" />
+        <camunda:in source="matNr" target="matNr" />
+        <camunda:in source="eMailAdresse" target="eMailAdresse" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ib3r16</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ohuo6t</bpmn:outgoing>

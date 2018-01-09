@@ -149,12 +149,12 @@ public class VerfZeitraum implements JavaDelegate{
 				}
 			}
 		}
-		int idPerson = (Integer)execute.getVariable("idPerson");
-		sql = "SELECT matrikelnummer FROM Person WHERE idPerson = ?";
+		String eMailAdresse = (String)execute.getVariable("eMailAdresse");
+		sql = "SELECT matrikelnummer FROM Person WHERE eMailadresse = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{
-			ps.setInt(1, idPerson);
-			L.info("Prüfung von Matrikelnummer zur PersonID:" + idPerson);
+			ps.setString(1, eMailAdresse);
+			L.info("Prüfung von Matrikelnummer zur PersonID:" + eMailAdresse);
 			L.debug(ps.toString());
 			try(ResultSet rs = ps.executeQuery())
 			{
@@ -170,15 +170,15 @@ public class VerfZeitraum implements JavaDelegate{
 				}
 				else
 				{
-					L.warn("Es gibt keine Person mit der ID: "+ idPerson + " studentBool wird auf false gesetzt");
+					L.warn("Es gibt keine Person mit der E-Mailadresse: "+ eMailAdresse + " studentBool wird auf false gesetzt");
 					execute.setVariable("studentBool", false);
 				}
 			}
 		}
-		sql = "SELECT p.idPerson, pg.gremiumid FROM Person p INNER JOIN personGremium pg ON p.idPerson=pg.personid WHERE p.idPerson = ?";
+		sql = "SELECT p.idPerson, pg.gremiumid FROM Person p INNER JOIN personGremium pg ON p.idPerson=pg.personid WHERE p.eMailAdresse= ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{
-			ps.setInt(1, idPerson);
+			ps.setString(1, eMailAdresse);
 			try(ResultSet rs = ps.executeQuery())
 			{
 				if (rs.next()) {

@@ -50,13 +50,13 @@ public class PruefenKundenkonto implements JavaDelegate{
 		
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			
-			ps.setString(1, (String)execute.getVariable("eMailKunde"));
+			ps.setString(1, (String)execute.getVariable("eMailAdresse"));
 			L.debug(ps.toString());
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next()) {
-					idPerson = rs.getString("eMailAdresse");
-					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailKunde") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
-					execute.setVariable("idPerson", rs.getInt("idPerson"));
+					idPerson = rs.getString("idPerson");
+					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailAdresse") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
+					execute.setVariable("idPerson", idPerson);
 					isIdPerson = true;
 					
 				}
