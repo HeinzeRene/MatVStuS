@@ -51,6 +51,7 @@
         <camunda:in source="wohnort" target="wohnort" />
         <camunda:in source="matNr" target="matNr" />
         <camunda:in source="eMailAdresse" target="eMailAdresse" />
+        <camunda:out source="idPerson" target="idPerson" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ib3r16</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ohuo6t</bpmn:outgoing>
@@ -88,6 +89,11 @@
       <bpmn:incoming>SequenceFlow_1hmdgma</bpmn:incoming>
     </bpmn:sendTask>
     <bpmn:serviceTask id="Task_02xrijt" name="Verfügbarkeit des Zeitraumes prüfen" camunda:class="Projektarbeit.leihVorgang.VerfZeitraum">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="Input_1l2gqoi" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ohuo6t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11j5co2</bpmn:outgoing>
     </bpmn:serviceTask>

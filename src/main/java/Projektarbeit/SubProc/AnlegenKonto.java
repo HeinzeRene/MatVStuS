@@ -9,6 +9,7 @@ import java.util.zip.DataFormatException;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.delegate.VariableScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,8 @@ import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
 public class AnlegenKonto implements JavaDelegate{
 
 	private static final Logger L = LoggerFactory.getLogger(AnlegenKonto.class);
-
+	private int idPerson = -1;
+	
 	public void execute(DelegateExecution execution) throws Exception {
 	
 		Connection conn = null;
@@ -60,7 +62,6 @@ public class AnlegenKonto implements JavaDelegate{
 		String sql2 = "select idPerson from Person where eMailAdresse = ?";
 		
 		try(PreparedStatement s = conn.prepareStatement(sql2)){
-			int idPerson = -1;
 			s.setString(1, (String) execution.getVariable("eMailAdresse"));
 			L.debug(s.toString());
 			try(ResultSet rs = s.executeQuery()){
@@ -75,4 +76,8 @@ public class AnlegenKonto implements JavaDelegate{
 			execution.setVariable("idPerson", idPerson);
 		}	
 	}// end of execution
+	
+	  public void mapOutputVariables(DelegateExecution execution, VariableScope subInstance) {
+	    execution.setVariable("idPerson", idPerson);
+	  }
 }//end of class

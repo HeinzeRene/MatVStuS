@@ -150,17 +150,17 @@ public class VerfZeitraum implements JavaDelegate{
 			}
 		}
 		String eMailAdresse = (String)execute.getVariable("eMailAdresse");
-		sql = "SELECT matrikelnummer FROM Person WHERE eMailadresse = ?";
+		sql = "SELECT matrikelnummer FROM Person WHERE eMailAdresse = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{
 			ps.setString(1, eMailAdresse);
-			L.info("Prüfung von Matrikelnummer zur PersonID:" + eMailAdresse);
+			L.info("Prüfung von Matrikelnummer zur PersonID: " + eMailAdresse);
 			L.debug(ps.toString());
 			try(ResultSet rs = ps.executeQuery())
 			{
 				if(rs.next())
 				{
-					if (rs.getString("matrikelnummer")!=null) {
+					if (rs.getString("matrikelnummer")==null) {
 						L.info("Die Person ist kein Student.");
 						execute.setVariable("studentBool", false);
 					} else {
