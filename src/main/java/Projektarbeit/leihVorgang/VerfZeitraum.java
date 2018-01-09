@@ -56,7 +56,7 @@ public class VerfZeitraum implements JavaDelegate{
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			
 			ps.setInt(1, (int)execute.getVariable("matArtID"));
-			L.info("SQL Anfrage: " + ps.toString());
+			L.debug(ps.toString());
 			ArrayList<Integer> verfuegbar = new ArrayList<Integer>();
 			ArrayList<Integer> nichtVerfuegbar = new ArrayList<Integer>();
 			try(ResultSet rs = ps.executeQuery()){
@@ -130,19 +130,65 @@ public class VerfZeitraum implements JavaDelegate{
 		} catch (SQLException e) {	
 			e.printStackTrace();
 		}
-		
-		execute.setVariable("Preis", 50);
-		
-		if ((String) execute.getVariable("matNr")!= null) {
-			execute.setVariable("studentBool", false);
-		} else {
-			execute.setVariable("studentBool", true);
+		sql = "SELECT wert FORM MaterialArt WHERE idMatArt = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql))
+		{
+			ps.setInt(1, (int)execute.getVariable("matArtID"));
+			L.info("Einlesen von Wert der MaterialArt");
+			L.debug(ps.toString());
+			try(ResultSet rs = ps.executeQuery())
+			{
+				if(rs.next())
+				{
+					L.info("Wert: " + rs.getDouble("wert"));
+					execute.setVariable("Preis", rs.getDouble("wert"));
+				}
+				else
+				{
+					L.warn("Es gibt kein Material mit der MaterialArt ID:" + execute.getVariable("matArtID"));
+				}
+			}
 		}
-		
-		if ((String) execute.getVariable("gremium") != null) {
-			execute.setVariable("gremiumBool", false);
-		}else {
-			execute.setVariable("gremiumBool", true);
+		int idPerson = (int)execute.getVariable("idPerson");
+		sql = "SELECT matrikelnummer FROM Person WHERE idPerson = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql))
+		{
+			ps.setInt(1, idPerson);
+			L.info("Prüfung von Matrikelnummer zur PersonID:" + idPerson);
+			L.debug(ps.toString());
+			try(ResultSet rs = ps.executeQuery())
+			{
+				if(rs.next())
+				{
+					if (rs.getString("matrikelnummer")!=null) {
+						L.info("Die Person ist kein Student.");
+						execute.setVariable("studentBool", false);
+					} else {
+						L.info("Die Person ist ein Student mit der Matrikelnummer: "+ rs.getString("matrikelnummer"));
+						execute.setVariable("studentBool", true);
+					}
+				}
+				else
+				{
+					L.warn("Es gibt keine Person mit der ID: "+ idPerson + " studentBool wird auf false gesetzt");
+					execute.setVariable("studentBool", false);
+				}
+			}
+		}
+		sql = "SELECT FROM Person p INNER JOIN personGremium pg ON p.idPerson=pg.personid WHERE p.idPerson = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql))
+		{
+			ps.setInt(1, idPerson);
+			try(ResultSet rs = ps.executeQuery())
+			{
+				if (rs.next()) {
+					L.info("Die Person ist teil mindestens einen Gremiums.");
+					execute.setVariable("gremiumBool", true);
+				}else {
+					L.info("Die Person ist nicht teil eines Gremiums oder die Person gibt es nicht");
+					execute.setVariable("gremiumBool", false);
+				}
+			}
 		}
 		
 	}

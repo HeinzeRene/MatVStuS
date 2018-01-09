@@ -65,7 +65,7 @@
         <biodi:waypoints x="491" y="170" />
       </biodi:edge>
     </extensionElements>
-    <variable id="InformationItem_0azsiqf" name="kaution" typeRef="integer" />
+    <variable id="InformationItem_0azsiqf" name="kaution" typeRef="double" />
     <informationRequirement>
       <requiredDecision href="#Kaution_Proz" />
     </informationRequirement>
