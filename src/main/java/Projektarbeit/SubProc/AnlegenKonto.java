@@ -33,7 +33,7 @@ public class AnlegenKonto{
 	
 		L.info("Start einlesen von Personendaten");
 		String sql = "insert into Person(anrede, vorname, nachname, matrikelnummer, adresse, plz, wohnort" + 
-				"values (?, ?, ?, ?, ?, ?, ?, ?)";
+				" values (?, ?, ?, ?, ?, ?, ?, ?)";
 		L.info(sql);
 		try(PreparedStatement s = connection.prepareStatement(sql)){
 			s.setString(1, (String) execution.getVariable("anrede"));
