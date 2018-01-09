@@ -58,6 +58,7 @@ public class AnlegenKonto implements JavaDelegate{
 			throw new DataFormatException();
 		}
 		
+		
 		L.info("Start Auslesen von idPerson");
 		String sql2 = "select idPerson from Person where eMailAdresse = ?";
 		
@@ -74,7 +75,14 @@ public class AnlegenKonto implements JavaDelegate{
 			throw new Exception(e);
 			}
 			execution.setVariable("idPerson", idPerson);
-		}	
+		}
+		sql = "insert into personGremium (personid, gremiumid) values (?,?)";
+		try(PreparedStatement ps = conn.prepareStatement(sql))
+		{
+			L.info("Erstellen Verbindung zwischen Person und Gremium");
+			ps.setInt(1,idPerson);
+			ps.setInt(2, (int)execution.getVariable("idGremium"));
+		}
 	}// end of execution
 	
 	  public void mapOutputVariables(DelegateExecution execution, VariableScope subInstance) {
