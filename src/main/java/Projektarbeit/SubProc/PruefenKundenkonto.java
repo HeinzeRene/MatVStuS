@@ -17,7 +17,7 @@ import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
 
 public class PruefenKundenkonto implements JavaDelegate{
 
-	private String eMailAdresse;
+	private String idPerson;
 	private boolean kontoVorh;
 	private static final Logger L =  (Logger) LoggerFactory.getLogger(PruefenKundenkonto.class);
 	
@@ -44,17 +44,20 @@ public class PruefenKundenkonto implements JavaDelegate{
 			L.error("SQLException: " + sqle.getMessage() + "/n SQLState: " + sqle.getSQLState() + " VendorError: " + sqle.getErrorCode());
 
 		}
+		boolean isIdPerson = false;
 		L.info("Start Auslesen von Kundendaten");
-		String sql = "select * from Person where vorname = ? and nachname = ?";
+		String sql = "select * from Person where eMailAdresse = ?";
+		
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			
-			ps.setString(1, (String)execute.getVariable("vorname"));
-			ps.setString(2, (String)execute.getVariable("nachname"));
-			L.info("SQL Anfrage: " + ps.toString());
+			ps.setString(1, (String)execute.getVariable("eMailKunde"));
+			L.debug(ps.toString());
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next()) {
-					eMailAdresse = rs.getString("eMailAdresse");
-					L.info("E-Mail Adresse ist: " + eMailAdresse);
+					idPerson = rs.getString("eMailAdresse");
+					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailKunde") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
+					execute.setVariable("idPerson", rs.getInt("idPerson"));
+					isIdPerson = true;
 				}
 			}catch  (SQLException e) {
 			L.error(""+e);
@@ -65,7 +68,7 @@ public class PruefenKundenkonto implements JavaDelegate{
 			e.printStackTrace();
 		}
 		
-		if(eMailAdresse == null) {
+		if(isIdPerson) {
 			kontoVorh = false;	
 			L.info("Es gibt KEIN Konto mit der E-Mail adresse");
 		}else {

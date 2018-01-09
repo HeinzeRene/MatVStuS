@@ -130,7 +130,7 @@ public class VerfZeitraum implements JavaDelegate{
 		} catch (SQLException e) {	
 			e.printStackTrace();
 		}
-		sql = "SELECT wert FORM MaterialArt WHERE idMatArt = ?";
+		sql = "SELECT wert FROM MaterialArt WHERE idMatArt = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{
 			ps.setInt(1, (int)execute.getVariable("matArtID"));
@@ -175,7 +175,7 @@ public class VerfZeitraum implements JavaDelegate{
 				}
 			}
 		}
-		sql = "SELECT FROM Person p INNER JOIN personGremium pg ON p.idPerson=pg.personid WHERE p.idPerson = ?";
+		sql = "SELECT p.idPerson, pg.gremiumid FROM Person p INNER JOIN personGremium pg ON p.idPerson=pg.personid WHERE p.idPerson = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{
 			ps.setInt(1, idPerson);
