@@ -17,7 +17,7 @@ import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
 
 public class PruefenKundenkonto implements JavaDelegate{
 
-	private String idPerson;
+	private int idPerson;
 	private boolean kontoVorh;
 	private static final Logger L =  (Logger) LoggerFactory.getLogger(PruefenKundenkonto.class);
 	
@@ -54,7 +54,7 @@ public class PruefenKundenkonto implements JavaDelegate{
 			L.debug(ps.toString());
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next()) {
-					idPerson = rs.getString("idPerson");
+					idPerson = rs.getInt("idPerson");
 					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailAdresse") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
 					execute.setVariable("idPerson", idPerson);
 					isIdPerson = true;
