@@ -149,12 +149,12 @@ public class VerfZeitraum implements JavaDelegate{
 				}
 			}
 		}
-		String eMailAdresse = (String)execute.getVariable("eMailAdresse");
-		sql = "SELECT matrikelnummer FROM Person WHERE eMailAdresse = ?";
+		int idPerson = (int)execute.getVariable("idPerson");
+		sql = "SELECT matrikelnummer FROM Person WHERE idPerson = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{
-			ps.setString(1, eMailAdresse);
-			L.info("Prüfung von Matrikelnummer zur PersonID: " + eMailAdresse);
+			ps.setInt(1, idPerson);
+			L.info("Prüfung von Matrikelnummer zur PersonID: " + idPerson);
 			L.debug(ps.toString());
 			try(ResultSet rs = ps.executeQuery())
 			{
@@ -170,29 +170,32 @@ public class VerfZeitraum implements JavaDelegate{
 				}
 				else
 				{
-					L.warn("Es gibt keine Person mit der E-Mailadresse: "+ eMailAdresse + " studentBool wird auf false gesetzt");
+					L.warn("Es gibt keine Person mit der idPerson: "+ idPerson + " studentBool wird auf false gesetzt");
 					execute.setVariable("studentBool", false);
 				}
 			}
 		}
-		sql = "SELECT p.idPerson, pg.gremiumid FROM Person p INNER JOIN personGremium pg ON p.idPerson=pg.personid WHERE p.eMailAdresse= ?";
+		sql = "SELECT pg.gremiumid FROM Person p INNER JOIN personGremium pg ON p.idPerson=pg.personid WHERE p.idPerson = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql))
 		{
-			ps.setString(1, eMailAdresse);
+			ps.setInt(1, idPerson);
 			try(ResultSet rs = ps.executeQuery())
 			{
 				if (rs.next()) {
+					if(rs.getString("pg.gremiumid") != null) {
 					L.info("Die Person ist teil mindestens einen Gremiums.");
 					execute.setVariable("gremiumBool", true);
-				}else {
-					L.info("Die Person ist nicht teil eines Gremiums oder die Person gibt es nicht");
-					execute.setVariable("gremiumBool", false);
+					}else {
+						L.info("Die Person ist nicht teil eines Gremiums oder die Person gibt es nicht");
+						execute.setVariable("gremiumBool", false);
+					}
+				}
+				else
+				{
+					L.warn("Es gibt keine Person mit dieser idPerson: " + idPerson + " gremiuimBool wird auf false gesetzt");
 				}
 			}
-		}
 		
+		}
 	}
-
-	
-	
 }
