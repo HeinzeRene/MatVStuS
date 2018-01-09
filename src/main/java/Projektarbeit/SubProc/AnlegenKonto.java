@@ -6,10 +6,11 @@ import java.sql.SQLException;
 import java.util.zip.DataFormatException;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AnlegenKonto{
+public class AnlegenKonto implements JavaDelegate{
 
 	private static final Logger L = LoggerFactory.getLogger(AnlegenKonto.class);
 	
@@ -32,7 +33,7 @@ public class AnlegenKonto{
 	public void execute(DelegateExecution execution) throws Exception {
 	
 		L.info("Start einlesen von Personendaten");
-		String sql = "insert into Person(anrede, vorname, nachname, matrikelnummer, adresse, plz, wohnort" + 
+		String sql = "insert into Person(anrede, vorname, nachname, matrikelnummer, adresse, plz, wohnort, eMailAdresse" + 
 				" values (?, ?, ?, ?, ?, ?, ?, ?)";
 		L.info(sql);
 		try(PreparedStatement s = connection.prepareStatement(sql)){
@@ -43,6 +44,7 @@ public class AnlegenKonto{
 			s.setString(5, (String) execution.getVariable("adresse"));
 			s.setString(6, (String) execution.getVariable("plz"));
 			s.setString(7, (String) execution.getVariable("wohnort"));
+			s.setString(8, (String) execution.getVariable("eMailKunde"));
 			s.executeUpdate();
 		}catch  (SQLException e) {
 			L.error(""+e);
