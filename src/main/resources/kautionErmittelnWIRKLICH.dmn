@@ -18,7 +18,7 @@
       <input id="InputClause_06lc9bg" label="gremiumBool" camunda:inputVariable="gremiumBool">
         <inputExpression id="LiteralExpression_0k684o2" typeRef="boolean" />
       </input>
-      <output id="output1" label="kautionProzent" name="" typeRef="integer" />
+      <output id="output1" label="kautionProzent" name="kautPr" typeRef="integer" />
       <rule id="row-752616073-1">
         <description>20% Kaution vom Beschaffungspreis</description>
         <inputEntry id="UnaryTests_0cw29j4">        <text>false</text>
@@ -72,7 +72,7 @@
     <informationRequirement>
       <requiredInput href="#preis" />
     </informationRequirement>
-    <literalExpression id="LiteralExpression_1xamp0t" expressionLanguage="javascript">    <text>Kaution_Proz.kautionProzent*preis/100;</text>
+    <literalExpression id="LiteralExpression_1xamp0t" expressionLanguage="javascript">    <text>kautPr/100*Preis;</text>
 </literalExpression>
   </decision>
 </definitions>
