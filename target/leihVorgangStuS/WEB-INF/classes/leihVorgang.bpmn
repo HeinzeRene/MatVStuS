@@ -60,6 +60,11 @@
     <bpmn:sendTask id="Task_1w4r4zb" name="Angebot versenden" camunda:class="Projektarbeit.MailVersenden.MailAngebotVersenden">
       <bpmn:incoming>SequenceFlow_14rtkxc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kxnx36</bpmn:outgoing>
+      <bpmn:property id="Property_12nbvcp" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_0lniv9h">
+        <bpmn:sourceRef>DataObjectReference_0zdtsqz</bpmn:sourceRef>
+        <bpmn:targetRef>Property_12nbvcp</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
     </bpmn:sendTask>
     <bpmn:dataStoreReference id="DataStoreReference_01sngt7" name="Buchung">
       <bpmn:extensionElements>
@@ -506,6 +511,10 @@
       <bpmndi:BPMNShape id="BusinessRuleTask_0yc6yms_di" bpmnElement="Task_0a5iwns">
         <dc:Bounds x="808" y="82" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataInputAssociation_0lniv9h_di" bpmnElement="DataInputAssociation_0lniv9h">
+        <di:waypoint xsi:type="dc:Point" x="1147" y="-37" />
+        <di:waypoint xsi:type="dc:Point" x="1305" y="99" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
