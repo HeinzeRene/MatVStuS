@@ -30,6 +30,7 @@ public class AngebotErstellen implements JavaDelegate {
 
 	private static final Logger L = LoggerFactory.getLogger(AngebotErstellen.class);
 
+	private int idPerson = -1;
 	private String datum;
 	
 	private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
@@ -70,22 +71,19 @@ public class AngebotErstellen implements JavaDelegate {
 		}
 
 		L.info("Auslesen der IdPerson");
-		String sql = "select idPerson from person where vorname = ? and nachname = ?" + "value (?, ?)";
+		String sql = "select idPerson from person where eMailAdresse =?" + " values (?)";
 		L.info(sql);
 		try (PreparedStatement s = conn.prepareStatement(sql)) {
-			s.setString(1, (String) execution.getVariable("vorname"));
-			s.setString(2, (String) execution.getVariable("nachname"));
-			s.executeUpdate();
+			s.setString(1, (String) execution.getVariable("eMailAdresse"));
+			idPerson = Integer.parseInt(sql);
 		} catch (SQLException e) {
 			L.error("" + e);
 			throw new DataFormatException();
 		}
 		L.info("Ende des Einlesens");
 
-		int idPerson = Integer.parseInt(sql);
-
 		L.info("Start einlesen von Leihscheindaten");
-		String sqlZwei = "insert into leihschein(idPerson, anfangausleihe, endeausleihe" + "values (?, ?, ?)";
+		String sqlZwei = " insert into leihschein (idPerson, anfangausleihe, endeausleihe)" + " values (?, ?, ?)";
 		L.info(sqlZwei);
 		try (PreparedStatement s = conn.prepareStatement(sqlZwei)) {
 			s.setInt(1, idPerson);
