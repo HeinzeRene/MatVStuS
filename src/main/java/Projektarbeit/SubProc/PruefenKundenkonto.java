@@ -196,6 +196,19 @@ public class PruefenKundenkonto implements JavaDelegate{
 					{
 						L.info("Der Wohnort stimmt mit der Datenbank überein.");
 					}
+					if((String)execute.getVariable("gremium")==null)
+					{
+						L.info("Es ist kein Gremium angegeben, es werden alle Gremien zuheörigkeiten gelöscht.");
+						try(PreparedStatement pps = conn.prepareStatement("DELETE FROM personGremium WHERE personid = ?"))
+						{
+							pps.setInt(1, idPerson);
+							pps.execute();
+						}
+					}
+					else
+					{
+						L.info("Gremien zugehörigkeit wird beibehalten");
+					}
 					
 					
 					
