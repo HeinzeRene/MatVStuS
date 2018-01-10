@@ -87,8 +87,9 @@ public class AngebotErstellen implements JavaDelegate {
 		L.info(sqlZwei);
 		try (PreparedStatement s = conn.prepareStatement(sqlZwei)) {
 			s.setInt(1, idPerson);
-			s.setTimestamp(2, (Timestamp) execution.getVariable("anfangausleihe"));
-			s.setTimestamp(3, (Timestamp) execution.getVariable("endeausleihe"));
+			
+			s.setTimestamp(2, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzUeber")));
+			s.setTimestamp(3, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzRueck")));
 			s.executeUpdate();
 		} catch (SQLException e) {
 			L.error("" + e);
@@ -188,5 +189,12 @@ public class AngebotErstellen implements JavaDelegate {
 		workbook.write(outFile);
 		L.info("Datei auf der Festplatte gespeichert.");
 
+	}
+	
+	private Timestamp getTimestamp(String datum, String uhrzeit)
+	{
+		String[] d = datum.split("\\.");
+		String[] u = uhrzeit.split(":");
+		return Timestamp.valueOf(""+d[2]+"-"+d[1]+"-"+d[0]+" "+u[0]+":"+u[1]+":00");
 	}
 }
