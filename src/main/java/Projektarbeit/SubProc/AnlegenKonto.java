@@ -82,7 +82,7 @@ public class AnlegenKonto implements JavaDelegate{
 			L.info("Erstellen Verbindung zwischen Person und Gremium");
 			ps.setInt(1,idPerson);
 			ps.setInt(2, (int)execution.getVariable("idGremium"));
-			ps.execute()
+			ps.execute();
 		}
 	}// end of execution
 	
