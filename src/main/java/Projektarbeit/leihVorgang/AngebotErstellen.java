@@ -70,18 +70,6 @@ public class AngebotErstellen implements JavaDelegate {
 
 		}
 
-		L.info("Auslesen der IdPerson");
-		String sql = "select idPerson from person where eMailAdresse =?" + " values (?)";
-		L.info(sql);
-		try (PreparedStatement s = conn.prepareStatement(sql)) {
-			s.setString(1, (String) execution.getVariable("eMailAdresse"));
-			idPerson = Integer.parseInt(sql);
-		} catch (SQLException e) {
-			L.error("" + e);
-			throw new DataFormatException();
-		}
-		L.info("Ende des Einlesens");
-
 		L.info("Start einlesen von Leihscheindaten");
 		String sqlZwei = " insert into leihschein (idPerson, anfangausleihe, endeausleihe)" + " values (?, ?, ?)";
 		L.info(sqlZwei);
