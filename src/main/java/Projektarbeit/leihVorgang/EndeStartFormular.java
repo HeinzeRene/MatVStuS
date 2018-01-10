@@ -66,6 +66,26 @@ public class EndeStartFormular implements JavaDelegate {
 		} catch (SQLException e) {	
 			e.printStackTrace();
 		}
+		L.info("Start Auslesen des Gremiums");
+		sql = "SELECT idGremium FROM Gremium WHERE name = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql))
+		{
+			ps.setString(1, (String)execute.getVariable("gremium"));
+			L.debug(ps.toString());
+			try(ResultSet rs = ps.executeQuery())
+			{
+				if(rs.next())
+				{
+					L.info("Die id des ausgewaehlten Gremium ist: "+ rs.getInt("idGremium"));
+					execute.setVariable("idGremium", rs.getInt("idGremium"));
+				}
+				else
+				{
+					L.warn("Das ausgewahlte Gremium gibt es in der Datenbank nicht.");
+				}
+			}
+		}
+		L.info("Ende Auslesen des Gremiums");
 	}
 
 }
