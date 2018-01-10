@@ -54,10 +54,135 @@ public class PruefenKundenkonto implements JavaDelegate{
 			L.debug(ps.toString());
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next()) {
-					idPerson = rs.getInt("idPerson");
-					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailAdresse") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
-					execute.setVariable("idPerson", idPerson);
 					isIdPerson = true;
+					idPerson = rs.getInt("idPerson");
+					execute.setVariable("idPerson", idPerson);
+					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailAdresse") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
+					if(!((String)execute.getVariable("vorname")).equalsIgnoreCase(rs.getString("vorname")))
+					{
+						L.info("Der Vorname stimmt nicht mit der Datenbank überein. Neuer Vorname wird in die Datenbank geschrieben.");
+						L.info("Alt: " + rs.getString("vorname"));
+						L.info("Neu: " + execute.getVariable("vorname"));
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET vorname = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, (String)execute.getVariable("vorname"));
+							pps.setInt(2, idPerson);
+						}
+					}
+					else
+					{
+						L.info("Der Vorname stimmt mit der Datenbank überein.");
+					}
+					if(!((String)execute.getVariable("nachname")).equalsIgnoreCase(rs.getString("nachname")))
+					{
+						L.info("Der Nachname stimmt nicht mit der Datenbank überein. Neuer Nachname wird in die Datenbank geschrieben.");
+						String alt = rs.getString("nachname");
+						String neu = (String)execute.getVariable("nachname");
+						L.info("Alt: " + alt);
+						L.info("Neu: " + neu);
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET vorname = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, neu);
+							pps.setInt(2, idPerson);
+							pps.execute();
+						}
+					}
+					else
+					{
+						L.info("Der Nachname stimmt mit der Datenbank überein.");
+					}
+					if(!((String)execute.getVariable("nachname")).equalsIgnoreCase(rs.getString("nachname")))
+					{
+						L.info("Der Nachname stimmt nicht mit der Datenbank überein. Neuer Nachname wird in die Datenbank geschrieben.");
+						String alt = rs.getString("nachname");
+						String neu = (String)execute.getVariable("nachname");
+						L.info("Alt: " + alt);
+						L.info("Neu: " + neu);
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET nachname = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, neu);
+							pps.setInt(2, idPerson);
+							pps.execute();
+						}
+					}
+					else
+					{
+						L.info("Der Matrikelnummer stimmt mit der Datenbank überein.");
+					}
+					if(!((String)execute.getVariable("matNr")).equalsIgnoreCase(rs.getString("matrikelnummer")))
+					{
+						L.info("Die Matrikelnummer stimmt nicht mit der Datenbank überein. Neue Matrikelnummer wird in die Datenbank geschrieben.");
+						String alt = rs.getString("matrikelnummer");
+						String neu = (String)execute.getVariable("matNr");
+						L.info("Alt: " + alt);
+						L.info("Neu: " + neu);
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET matrikelnummer = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, neu);
+							pps.setInt(2, idPerson);
+							pps.execute();
+						}
+					}
+					else
+					{
+						L.info("Die Adresse stimmt mit der Datenbank überein.");
+					}
+					if(!((String)execute.getVariable("adresse")).equalsIgnoreCase(rs.getString("adresse")))
+					{
+						L.info("Die Adresse stimmt nicht mit der Datenbank überein. Neue Adresse wird in die Datenbank geschrieben.");
+						String alt = rs.getString("adresse");
+						String neu = (String)execute.getVariable("adresse");
+						L.info("Alt: " + alt);
+						L.info("Neu: " + neu);
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET adresse = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, neu);
+							pps.setInt(2, idPerson);
+							pps.execute();
+						}
+					}
+					else
+					{
+						L.info("Die Adresse stimmt mit der Datenbank überein.");
+					}
+					if(!((String)execute.getVariable("plz")).equalsIgnoreCase(rs.getString("plz")))
+					{
+						L.info("Die Postleitzahl stimmt nicht mit der Datenbank überein. Neue Postleitzahl wird in die Datenbank geschrieben.");
+						String alt = rs.getString("plz");
+						String neu = (String)execute.getVariable("plz");
+						L.info("Alt: " + alt);
+						L.info("Neu: " + neu);
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET plz = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, neu);
+							pps.setInt(2, idPerson);
+							pps.execute();
+						}
+					}
+					else
+					{
+						L.info("Die Postleitzahl stimmt mit der Datenbank überein.");
+					}
+					if(!((String)execute.getVariable("plz")).equalsIgnoreCase(rs.getString("plz")))
+					{
+						L.info("Die Postleitzahl stimmt nicht mit der Datenbank überein. Neue Postleitzahl wird in die Datenbank geschrieben.");
+						String alt = rs.getString("plz");
+						String neu = (String)execute.getVariable("plz");
+						L.info("Alt: " + alt);
+						L.info("Neu: " + neu);
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET plz = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, neu);
+							pps.setInt(2, idPerson);
+							pps.execute();
+						}
+					}
+					else
+					{
+						L.info("Die Postleitzahl stimmt mit der Datenbank überein.");
+					}
+					
+					
 					
 				}
 			}catch  (SQLException e) {
