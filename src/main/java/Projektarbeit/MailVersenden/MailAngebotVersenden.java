@@ -16,21 +16,19 @@ public class MailAngebotVersenden implements JavaDelegate {
 		String anrede = (String) execution.getVariable("anrede");
 		String vorname = (String) execution.getVariable("vorname");
 		String nachname = (String) execution.getVariable("nachname");
-		String AntragLeihNr = (String) execution.getVariable("AntragLeihNr"); //-->Sollte nach Plan ein Integer sein - Prüfen!!
-		String toEmail = (String) execution.getVariable("email");
-		String subject = "Ihre Leihanfrage " + AntragLeihNr + "/Übersendung Leihangebot";
+		String leihscheinNummer = (String) execution.getVariable("leihscheinNummer"); //-->Sollte nach Plan ein Integer sein - Prüfen!!
+		String eMailAdresse = (String) execution.getVariable("eMailAdresse");
+		String subject = "Ihre Leihanfrage " + leihscheinNummer + "/Übersendung Leihangebot";
 		String mailtext = "Sehr geehrte/er " + anrede + " " + vorname + " " + nachname + ",\n" 
-		+ "\nvielen Dank für Ihre Teilnahme am Bewerbungsgespräch."
-		+ "\nHiermit teilen wir Ihnen mit, dass wir die gewünschten Artikel im Bestand haben."
-		+ "\nAnbei übersenden wir Ihnen das Leihangebot. Bitte lesen Sie sich dieses Dokument vollständig durch."
-		+ "\nSofern der gewünschte Zeitraum nicht zur Verfügung steht, wird im Dokument ein alternativer Leihzeitraum vorgeschlagen"
-		+ "\nBitte geben Sie uns binnen 7 Tagen eine Rückmeldung. So lang sind die Artikel für Sie reserviert." 
-		+ "\nZur Annahme oder Absage drücken Sie bitte die in der Mail angezeigte Button mit entsprechenden Bezeichnung."
+		+ "\nVielen Dank für Ihre Anfrage bei der Initiative Studimeile."
+		+ "\nWir sind eine anerkannte studentische Initiative, welche durch Mittel der Studierendenschaft der HTW Berlin finanziert wird."
+		+ "\n\n anbei übersenden wir Ihnen das Angebot zur Anfrage"
+		+ "\n Bitte beantworten Sie per Mail an: ini-studimeile@studets-htw.de, ob Sie dieses Angebot annehmen möchten."
 		+ "\n\nMit freundlichen Grüßen,\n die Initiative Studimeile.";
 
 		// https://docs.camunda.org/manual/7.5/user-guide/process-engine/variables/
 
-		FileValue retrievedTypedFileValue = execution.getVariableTyped("AngebotLeihe");
+		FileValue retrievedTypedFileValue = execution.getVariableTyped("Leihanfrage: " + leihscheinNummer);
 		InputStream fileContent = retrievedTypedFileValue.getValue(); // bytestream
 		String fileName = retrievedTypedFileValue.getFilename(); // filename
 		String mimeType = retrievedTypedFileValue.getMimeType(); // memetype
@@ -42,15 +40,11 @@ public class MailAngebotVersenden implements JavaDelegate {
 		attachment.setDataHandler(new DataHandler(ds));
 		attachment.setFileName(fileName);
 
-		sendEmail(mailtext, subject, toEmail, ds, fileName, encoding);
+		sendEmail(mailtext, subject, eMailAdresse, ds, fileName, encoding);
 	}
 
-	public void sendEmail(String mailtext, String subject, String toEmail, ByteArrayDataSource ds, String fileName, String encoding) throws EmailException {
-		//https://anleitungen.rz.htw-berlin.de/de/email/e-mail_programm/
+	public void sendEmail(String mailtext, String subject, String eMailAdresse, ByteArrayDataSource ds, String fileName, String encoding) throws EmailException {
 
-		/*
-		 * Host und Mail anpassen!!!
-		 */
 		MultiPartEmail email = new MultiPartEmail();
 		email.setCharset("utf-8");
 		email.setSSL(true);
@@ -59,10 +53,10 @@ public class MailAngebotVersenden implements JavaDelegate {
 //		email.setAuthentication("XXXX@gmx.de", "XXXXXXX");
 //		email.addTo(toEmail);
 //		email.setFrom("XXXXXX@gmx.de");
-		email.setHostName("mail.htw-berlin.de");
-		email.setAuthentication("Matrikelnummer", "Passwort");
-		email.addTo(toEmail);
-		email.setFrom("Matrikelnummer@htw-berlin.de");
+		email.setHostName("mail.students-htw.de");
+		email.setAuthentication("rheinze", "mdma.42");
+		email.addTo(eMailAdresse);
+		email.setFrom("r.heinze@students-htw.de");
 		email.setSubject(subject);
 		email.setMsg(mailtext);
 		email.attach(ds, fileName, encoding);

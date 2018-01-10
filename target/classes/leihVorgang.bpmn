@@ -124,7 +124,7 @@
       <bpmn:incoming>SequenceFlow_1w03z5g</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1w03z5g" sourceRef="Task_1tm01p6" targetRef="EndEvent_0dorg3p" />
-    <bpmn:sendTask id="Task_1tm01p6" name="Absage mangels Verfügbarkeit" camunda:class="Projektarbeit.MailVersenden.MailNachfrageAngebot">
+    <bpmn:sendTask id="Task_1tm01p6" name="Absage mangels Verfügbarkeit" camunda:class="Projektarbeit.MailVersenden.MailAbsageVerfuegbarkeit">
       <bpmn:incoming>SequenceFlow_1ub6nvi</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1w03z5g</bpmn:outgoing>
     </bpmn:sendTask>
