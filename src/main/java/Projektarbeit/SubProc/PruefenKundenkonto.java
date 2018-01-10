@@ -58,11 +58,26 @@ public class PruefenKundenkonto implements JavaDelegate{
 					idPerson = rs.getInt("idPerson");
 					execute.setVariable("idPerson", idPerson);
 					L.info("E-Mail Adresse: " + (String)execute.getVariable("eMailAdresse") + " idPerson: " + rs.getInt("idPerson") + " name: " + rs.getString("vorname") + " " + rs.getString("nachname"));
+					if(!((String)execute.getVariable("anrede")).equalsIgnoreCase(rs.getString("anrede")))
+					{
+						L.info("Die Anrede stimmt nicht mit der Datenbank überein. Neuer Vorname wird in die Datenbank geschrieben.");
+						L.info("Alt: " + rs.getString("anrede"));
+						L.info("Neu: " + (String)execute.getVariable("anrede"));
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET anrede = ? WHERE idPerson = ?"))
+						{
+							pps.setString(1, (String)execute.getVariable("anrede"));
+							pps.setInt(2, idPerson);
+						}
+					}
+					else
+					{
+						L.info("Der Vorname stimmt mit der Datenbank überein.");
+					}
 					if(!((String)execute.getVariable("vorname")).equalsIgnoreCase(rs.getString("vorname")))
 					{
 						L.info("Der Vorname stimmt nicht mit der Datenbank überein. Neuer Vorname wird in die Datenbank geschrieben.");
 						L.info("Alt: " + rs.getString("vorname"));
-						L.info("Neu: " + execute.getVariable("vorname"));
+						L.info("Neu: " + (String)execute.getVariable("vorname"));
 						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET vorname = ? WHERE idPerson = ?"))
 						{
 							pps.setString(1, (String)execute.getVariable("vorname"));
@@ -163,14 +178,14 @@ public class PruefenKundenkonto implements JavaDelegate{
 					{
 						L.info("Die Postleitzahl stimmt mit der Datenbank überein.");
 					}
-					if(!((String)execute.getVariable("plz")).equalsIgnoreCase(rs.getString("plz")))
+					if(!((String)execute.getVariable("wohnort")).equalsIgnoreCase(rs.getString("wohnort")))
 					{
-						L.info("Die Postleitzahl stimmt nicht mit der Datenbank überein. Neue Postleitzahl wird in die Datenbank geschrieben.");
-						String alt = rs.getString("plz");
-						String neu = (String)execute.getVariable("plz");
+						L.info("Der Wohnort stimmt nicht mit der Datenbank überein. Neuer Wohnort wird in die Datenbank geschrieben.");
+						String alt = rs.getString("wohnort");
+						String neu = (String)execute.getVariable("wohnort");
 						L.info("Alt: " + alt);
 						L.info("Neu: " + neu);
-						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET plz = ? WHERE idPerson = ?"))
+						try(PreparedStatement pps = conn.prepareStatement("UPDATE Person SET wohnort = ? WHERE idPerson = ?"))
 						{
 							pps.setString(1, neu);
 							pps.setInt(2, idPerson);
@@ -179,7 +194,7 @@ public class PruefenKundenkonto implements JavaDelegate{
 					}
 					else
 					{
-						L.info("Die Postleitzahl stimmt mit der Datenbank überein.");
+						L.info("Der Wohnort stimmt mit der Datenbank überein.");
 					}
 					
 					
