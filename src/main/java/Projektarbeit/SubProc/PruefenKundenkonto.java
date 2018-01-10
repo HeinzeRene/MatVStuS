@@ -71,7 +71,7 @@ public class PruefenKundenkonto implements JavaDelegate{
 					}
 					else
 					{
-						L.info("Der Vorname stimmt mit der Datenbank überein.");
+						L.info("Die Anrede stimmt mit der Datenbank überein.");
 					}
 					if(!((String)execute.getVariable("vorname")).equalsIgnoreCase(rs.getString("vorname")))
 					{
