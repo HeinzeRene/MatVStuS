@@ -180,6 +180,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_0kxnx36" sourceRef="Task_1w4r4zb" targetRef="Task_18wl5r8" />
     <bpmn:sequenceFlow id="SequenceFlow_185a346" sourceRef="Task_0a5iwns" targetRef="Task_1l2ko4g" />
     <bpmn:businessRuleTask id="Task_0a5iwns" name="Kaution Ermitteln" camunda:resultVariable="kaution" camunda:decisionRef="KautionPreis" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="Projektarbeit.leihVorgang.ErstellungDMNVariablen" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1mq0422</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_185a346</bpmn:outgoing>
     </bpmn:businessRuleTask>
