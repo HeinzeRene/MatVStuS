@@ -30,7 +30,6 @@ public class AngebotErstellen implements JavaDelegate {
 
 	private static final Logger L = LoggerFactory.getLogger(AngebotErstellen.class);
 
-	private int idPerson = -1;
 	private String datum;
 	
 	private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
@@ -70,10 +69,13 @@ public class AngebotErstellen implements JavaDelegate {
 
 		}
 
+		int idPerson = (int) execution.getVariable("idPerson");
+
 		L.info("Start einlesen von Leihscheindaten");
-		String sqlZwei = " insert into leihschein (idPerson, anfangausleihe, endeausleihe)" + " values (?, ?, ?)";
+		String sqlZwei = "insert into leihschein (idPerson, anfangausleihe, endeausleihe)" + " values (?, ?, ?)";
 		L.info(sqlZwei);
 		try (PreparedStatement s = conn.prepareStatement(sqlZwei)) {
+			L.info(""+idPerson);
 			s.setInt(1, idPerson);
 			s.setTimestamp(2, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzUeber")));
 			s.setTimestamp(3, getTimestamp((String) execution.getVariable("endeausleihe"),(String)execution.getVariable("uhrzRueck")));
@@ -140,7 +142,7 @@ public class AngebotErstellen implements JavaDelegate {
 		cell = row.createCell(23, CellType.STRING);
 		cell.setCellValue("Serialnummer: " + (String) execution.getVariable("seriennummer"));
 		cell = row.createCell(24, CellType.STRING);
-		cell.setCellValue("Kautionsanteil: " + (String) execution.getVariable("kaution"));
+		cell.setCellValue("Kautionsanteil: " + (double) execution.getVariable("kaution"));
 		cell = row.createCell(25, CellType.STRING);
 		cell.setCellValue("Übergabetermin: " + (String) execution.getVariable("anfangausleihe"));
 		cell = row.createCell(26, CellType.STRING);
