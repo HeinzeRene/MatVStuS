@@ -75,9 +75,8 @@ public class AngebotErstellen implements JavaDelegate {
 		L.info(sqlZwei);
 		try (PreparedStatement s = conn.prepareStatement(sqlZwei)) {
 			s.setInt(1, idPerson);
-			
 			s.setTimestamp(2, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzUeber")));
-			s.setTimestamp(3, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzRueck")));
+			s.setTimestamp(3, getTimestamp((String) execution.getVariable("endeausleihe"),(String)execution.getVariable("uhrzRueck")));
 			s.executeUpdate();
 		} catch (SQLException e) {
 			L.error("" + e);

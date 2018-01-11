@@ -124,30 +124,34 @@
 		 &Uumlbergabetermin:
 				<input class="form-control"
 							 cam-variable-type="String"
-							 cam-variable-name="terminUeber"
+							 cam-variable-name="anfangausleihe"
 							 name="terminUeber"
 							 datepicker-popup="dd.MM.yyyy"
 							 show-button-bar="false"
 							 onkeydown="return false;"
 							 is-open="dateFieldTerUebOpened"
-							 ng-click="openTerUeb($event)" />
+							 ng-click="openTerUeb($event)" 
+							 readonly = "true"
+							 />
 		<div role="alert"></div>
 </div>
 <div class="form-group">
 	 &Uumlbergabeuhrzeit:<input cam-variable-type="String" cam-variable-name="uhrzUeber"
-		 name="kaution" value="09:30">
+		 name="uhrzUeber" value="09:30">
  </div>
 <div class="form-group">
 		R&uumlckgabetermin:
 			 <input class="form-control"
 							cam-variable-type="String"
-							cam-variable-name="terminRueck"
+							cam-variable-name="endeausleihe"
 							name="terminRueck"
 							datepicker-popup="dd.MM.yyyy"
 							show-button-bar="false"
 							onkeydown="return false;"
 							is-open="dateFieldTerEndOpened"
-							ng-click="openTerEnd($event)" />
+							ng-click="openTerEnd($event)" 
+							readonly = "true"
+							/>
 	 <div role="alert"></div>
 </div>
 <div class="form-group">
