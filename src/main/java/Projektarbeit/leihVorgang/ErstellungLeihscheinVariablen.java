@@ -9,17 +9,17 @@ import java.sql.Timestamp;
 import java.util.zip.DataFormatException;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
 
-public class ErstellungLeihscheinVariablen implements JavaDelegate {
+public class ErstellungLeihscheinVariablen implements ExecutionListener {
 
 	private static final Logger L =  LoggerFactory.getLogger(ErstellungLeihscheinVariablen.class);
 
-	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
 		int idPerson = (int) execution.getVariable("idPerson");
@@ -113,6 +113,12 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 		String[] d = datum.split("\\.");
 		String[] u = uhrzeit.split(":");
 		return Timestamp.valueOf(""+d[2]+"-"+d[1]+"-"+d[0]+" "+u[0]+":"+u[1]+":00");
+	}
+
+	@Override
+	public void notify(DelegateExecution execution) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

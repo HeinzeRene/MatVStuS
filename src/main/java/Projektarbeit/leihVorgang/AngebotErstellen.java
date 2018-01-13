@@ -51,8 +51,28 @@ public class AngebotErstellen implements JavaDelegate {
 	}
 	public void execute(DelegateExecution execution) throws Exception {
 
-
+		String leihschein = (String) execution.getVariable("leihscheinNummer");
+		L.info("leihscheinNummer auslesen ergab: " + leihschein);
+		int leihscheinNummer = Integer.parseInt(leihschein);
+		L.info("" + leihscheinNummer);
+		
 		L.info("Dokument wird angelegt");
+		L.info("Test: " + aktuellesDatum() 
+		+ " " + execution.getVariable("anrede")  
+		+ " " + execution.getVariable("vorname")  
+		+ " " + execution.getVariable("nachname") 
+		+ " " + execution.getVariable("matrikelnummer") 
+		+ " " + execution.getVariable("adresse")  
+		+ " " + execution.getVariable("plz")  
+		+ " " + execution.getVariable("wohnort") 
+		+ " " + execution.getVariable("eMailAdresse")  
+		+ " " + execution.getVariable("leihscheinNummer")
+		+ " " + execution.getVariable("beschreibung") 
+		+ " " + execution.getVariable("seriennummer")  
+		+ " " + execution.getVariable("kaution") 
+		+ " " + execution.getVariable("anfangausleihe") 
+		+ " " + execution.getVariable("endeausleihe"));
+		
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Leihschein_" + execution.getVariable("leihscheinNummer"));
 
@@ -92,10 +112,10 @@ public class AngebotErstellen implements JavaDelegate {
 		cell = row.createCell(13, CellType.STRING);
 		cell.setCellValue((String) execution.getVariable("plz") + (String) execution.getVariable("wohnort"));
 		cell = row.createCell(14, CellType.STRING);
-		cell.setCellValue((String) execution.getVariable("matrikelnummer"));
+		cell.setCellValue((String) execution.getVariable("eMailAdresse"));
 
 		cell = row.createCell(17, CellType.STRING);
-		cell.setCellValue("Leihschein" + (int) execution.getVariable("leihscheinNummer"));
+		cell.setCellValue("Leihschein: " + leihscheinNummer);
 		cell.setCellStyle(style);
 
 		cell = row.createCell(19, CellType.STRING);
