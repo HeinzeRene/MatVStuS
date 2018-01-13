@@ -1,4 +1,5 @@
 package Projektarbeit.MailVersenden;
+import java.io.File;
 import java.io.InputStream;
 import javax.activation.DataHandler;
 import javax.mail.internet.MimeBodyPart;
@@ -27,8 +28,7 @@ public class MailAngebotVersenden implements JavaDelegate {
 		+ "\n\nMit freundlichen Grüßen,\n die Initiative Studimeile.";
 
 		// https://docs.camunda.org/manual/7.5/user-guide/process-engine/variables/
-
-		FileValue retrievedTypedFileValue = execution.getVariableTyped("Leihanfrage: " + leihscheinNummer);
+		FileValue retrievedTypedFileValue = execution.getVariableTyped("Leihschein");
 		InputStream fileContent = retrievedTypedFileValue.getValue(); // bytestream
 		String fileName = retrievedTypedFileValue.getFilename(); // filename
 		String mimeType = retrievedTypedFileValue.getMimeType(); // memetype

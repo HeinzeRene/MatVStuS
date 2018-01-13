@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -29,7 +30,7 @@ import org.apache.poi.ss.usermodel.Cell;
 public class AngebotErstellen implements JavaDelegate {
 
 	private static final Logger L = LoggerFactory.getLogger(AngebotErstellen.class);
-
+	private int leihscheinNummer = -1;
 	private String datum;
 	
 	private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
@@ -45,50 +46,15 @@ public class AngebotErstellen implements JavaDelegate {
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);   // 14.04.12 
 		df = DateFormat.getDateInstance(DateFormat.LONG);               // 14. April 2012 
 		datum = (String) df.format(now.getTime());
-		
+		System.out.println(datum);
 		return datum;
 	}
 	public void execute(DelegateExecution execution) throws Exception {
 
-		Connection conn = null;
-		try {
-			L.info("* Treiber laden");
-			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-		} catch (Exception e) {
-			L.error("Unable to load driver.");
-			e.printStackTrace();
-		}
-		try {
-			L.info("* Verbindung aufbauen");
-			String url = "jdbc:mysql://" + Datenbankzugang.hostname + ":" + Datenbankzugang.port + "/"
-					+ Datenbankzugang.dbname;
-			conn = DriverManager.getConnection(url, Datenbankzugang.user, Datenbankzugang.password);
-		} catch (SQLException sqle) {
-			L.error("SQLException: " + sqle.getMessage() + "/n SQLState: " + sqle.getSQLState() + " VendorError: "
-					+ sqle.getErrorCode());
-
-		}
-
-		int idPerson = (int) execution.getVariable("idPerson");
-
-		L.info("Start einlesen von Leihscheindaten");
-		String sqlZwei = "insert into leihschein (idPerson, anfangausleihe, endeausleihe)" + " values (?, ?, ?)";
-		L.info(sqlZwei);
-		try (PreparedStatement s = conn.prepareStatement(sqlZwei)) {
-			L.info(""+idPerson);
-			s.setInt(1, idPerson);
-			s.setTimestamp(2, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzUeber")));
-			s.setTimestamp(3, getTimestamp((String) execution.getVariable("endeausleihe"),(String)execution.getVariable("uhrzRueck")));
-			s.executeUpdate();
-		} catch (SQLException e) {
-			L.error("" + e);
-			throw new DataFormatException();
-		}
-		L.info("Ende des Einlesens");
 
 		L.info("Dokument wird angelegt");
 		HSSFWorkbook workbook = new HSSFWorkbook();
-		HSSFSheet sheet = workbook.createSheet("Employees sheet");
+		HSSFSheet sheet = workbook.createSheet("Leihschein_" + execution.getVariable("leihscheinNummer"));
 
 		int rownum = 0;
 		Cell cell;
@@ -129,7 +95,7 @@ public class AngebotErstellen implements JavaDelegate {
 		cell.setCellValue((String) execution.getVariable("matrikelnummer"));
 
 		cell = row.createCell(17, CellType.STRING);
-		cell.setCellValue("Leihschein" + (String) execution.getVariable("leihscheinNummer"));
+		cell.setCellValue("Leihschein" + (int) execution.getVariable("leihscheinNummer"));
 		cell.setCellStyle(style);
 
 		cell = row.createCell(19, CellType.STRING);
@@ -142,7 +108,7 @@ public class AngebotErstellen implements JavaDelegate {
 		cell = row.createCell(23, CellType.STRING);
 		cell.setCellValue("Serialnummer: " + (String) execution.getVariable("seriennummer"));
 		cell = row.createCell(24, CellType.STRING);
-		cell.setCellValue("Kautionsanteil: " + (double) execution.getVariable("kaution"));
+		cell.setCellValue("Kautionsanteil: " + (double) execution.getVariable("kaution") + " €");
 		cell = row.createCell(25, CellType.STRING);
 		cell.setCellValue("Übergabetermin: " + (String) execution.getVariable("anfangausleihe"));
 		cell = row.createCell(26, CellType.STRING);
@@ -150,7 +116,7 @@ public class AngebotErstellen implements JavaDelegate {
 
 		cell = row.createCell(28, CellType.STRING);
 		cell.setCellValue(
-				"Die Kaution richtet sich nach der Zugehörigkeit von Gremium und Immatrikulation an der HTW Berlin");
+				"Die Kaution richtet sich nach der Zugehörigkeit von Gremium und Immatrikulation an der HTW Berlin.");
 		cell = row.createCell(29, CellType.STRING);
 		cell.setCellValue("Bitte bringen sie den genannten Betrag bei der Übergabe in Bar mit.");
 		cell = row.createCell(30, CellType.STRING);
@@ -162,8 +128,9 @@ public class AngebotErstellen implements JavaDelegate {
 		cell = row.createCell(39, CellType.STRING);
 		cell.setCellValue("Schadensbemerkung bei Rückgabe (Datum:			");
 
+		
 		cell = row.createCell(45, CellType.STRING);
-		cell.setCellValue("Euer Ini Studimeile-Team");
+		cell.setCellValue("Eure Ini Studimeile-Team");
 
 		cell = row.createCell(49, CellType.STRING);
 		cell.setCellValue("i.A.");
@@ -171,19 +138,16 @@ public class AngebotErstellen implements JavaDelegate {
 		cell.setCellValue("(Unterschrift Ini-Mitglied)									(Unterschrift Kunde)");
 
 		L.info("Dokument wurde erstellt.");
-		String dateiPfad = "C:/Users/Erdmann/Documents/3. Semester/MAS/Neu/leihVorgangStuS";
+		leihscheinNummer = (int) execution.getVariable("leihscheinNummer");
+		String dateiPfad = "C:/Users/Erdmann/Documents/3. Semester/MAS/" + leihscheinNummer + "_Leihschein.xls";
 		File file = new File(dateiPfad);
+		file.getParentFile().mkdirs();
 		L.info("Dokument in " + file + " gespeichert.");
 		FileOutputStream outFile = new FileOutputStream(file);
 		workbook.write(outFile);
-		L.info("Datei auf der Festplatte gespeichert.");
-
+		L.info("Datei auf der Festplatte gespeichert." + file.getAbsolutePath());
+		execution.setVariable("Leihschein", file);
 	}
 	
-	private Timestamp getTimestamp(String datum, String uhrzeit)
-	{
-		String[] d = datum.split("\\.");
-		String[] u = uhrzeit.split(":");
-		return Timestamp.valueOf(""+d[2]+"-"+d[1]+"-"+d[0]+" "+u[0]+":"+u[1]+":00");
-	}
+
 }

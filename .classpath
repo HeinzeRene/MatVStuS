@@ -28,7 +28,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="/Users/chris/Downloads/poi-bin-3.17-20170915/poi-3.17/lib/commons-codec-1.10.jar"/>
-	<classpathentry exported="true" kind="lib" path="/Users/chris/Downloads/poi-bin-3.17-20170915/poi-3.17/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Erdmann/Documents/3. Semester/MAS/Neu/poi-bin-3.17-20170915/poi-3.17/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Erdmann/Documents/3. Semester/MAS/Neu/poi-bin-3.17-20170915/poi-3.17/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Erdmann/Documents/3. Semester/MAS/Neu/poi-bin-3.17-20170915/poi-3.17/poi-3.17.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

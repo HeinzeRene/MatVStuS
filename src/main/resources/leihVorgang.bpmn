@@ -72,6 +72,9 @@
       </bpmn:extensionElements>
     </bpmn:dataStoreReference>
     <bpmn:serviceTask id="Task_1ls8j08" name="Erstellung Leihschein" camunda:class="Projektarbeit.leihVorgang.AngebotErstellen">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="Projektarbeit.leihVorgang.ErstellungLeihscheinVariablen" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_127l19f</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_14rtkxc</bpmn:outgoing>
       <bpmn:property id="Property_0vol9kt" name="__targetRef_placeholder" />
