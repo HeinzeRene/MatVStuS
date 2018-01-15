@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.zip.DataFormatException;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -60,29 +61,38 @@ public class AnlegenKonto implements JavaDelegate{
 		
 		
 		L.info("Start Auslesen von idPerson");
-		String sql2 = "select idPerson from Person where eMailAdresse = ?";
+		String sql2 = "select LAST_INSERT_ID() from Person";
 		
-		try(PreparedStatement s = conn.prepareStatement(sql2)){
-			s.setString(1, (String) execution.getVariable("eMailAdresse"));
-			L.debug(s.toString());
-			try(ResultSet rs = s.executeQuery()){
+		try(Statement s = conn.createStatement()){
+			
+			L.debug(sql2);
+			try(ResultSet rs = s.executeQuery(sql2)){
 				if(rs.next()) {
-					idPerson = rs.getInt("idPerson");
+					idPerson = rs.getInt(1);
+					execution.setVariable("idPerson", idPerson);
 					L.info("Folgende idPerson wurde ausgelesen: " + idPerson + ", gehört zu: " + execution.getVariable("eMailAdresse"));;
 				}
 			}catch  (SQLException e) {
 			L.error(""+e);
-			throw new Exception(e);
+			
 			}
-			execution.setVariable("idPerson", idPerson);
+			
 		}
-		sql = "insert into personGremium (personid, gremiumid) values (?,?)";
-		try(PreparedStatement ps = conn.prepareStatement(sql))
+		String gremium = (String)execution.getVariable("idGremium");
+		if(gremium!=null)
 		{
-			L.info("Erstellen Verbindung zwischen Person und Gremium");
-			ps.setInt(1,idPerson);
-			ps.setInt(2, (int)execution.getVariable("idGremium"));
-			ps.execute();
+			sql = "insert into personGremium (personid, gremiumid) values (?,?)";
+			try(PreparedStatement ps = conn.prepareStatement(sql))
+			{
+				L.info("Erstellen Verbindung zwischen Person und Gremium");
+				ps.setInt(1,idPerson);
+				ps.setInt(2, (int)execution.getVariable("idGremium"));
+				ps.execute();
+			}
+		}
+		else
+		{
+			L.info("Person ist in keinem Gremium. Es wird keine Gremium verbindung angelegt.");
 		}
 	}// end of execution
 	

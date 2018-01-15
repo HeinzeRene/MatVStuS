@@ -94,11 +94,6 @@
       <bpmn:incoming>SequenceFlow_1hmdgma</bpmn:incoming>
     </bpmn:sendTask>
     <bpmn:serviceTask id="Task_02xrijt" name="Verfügbarkeit des Zeitraumes prüfen" camunda:class="Projektarbeit.leihVorgang.VerfZeitraum">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="Input_1l2gqoi" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ohuo6t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11j5co2</bpmn:outgoing>
       <bpmn:property id="Property_1flxubl" name="__targetRef_placeholder" />

@@ -6,11 +6,13 @@ import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.EMailZugangsdaten;
 
 public class MailNachfrageAngebot implements JavaDelegate {
-
+	private static final Logger L = LoggerFactory.getLogger(MailNachfrageAngebot.class);
 	public void execute(DelegateExecution execution) throws Exception {
 
 		String anrede = (String) execution.getVariable("anrede");
@@ -50,7 +52,14 @@ public class MailNachfrageAngebot implements JavaDelegate {
 		email.setFrom(EMailZugangsdaten.ABSENDER);
 		email.setSubject(subject);
 		email.setMsg(mailtext);
-		email.send();
+		try
+		{
+			email.send();
+		}
+		catch(EmailException e)
+		{
+			L.warn("Die Nachfrage EMail konnte nicht gesendet werden");
+		}
 
 	}
 

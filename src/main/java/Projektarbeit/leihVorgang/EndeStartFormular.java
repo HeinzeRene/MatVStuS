@@ -68,24 +68,34 @@ public class EndeStartFormular implements JavaDelegate {
 		}
 		L.info("Start Auslesen des Gremiums");
 		sql = "SELECT idGremium FROM Gremium WHERE name = ?";
-		try(PreparedStatement ps = conn.prepareStatement(sql))
+		String gremium = (String)execute.getVariable("gremium");
+		L.info("Ausgewähltes Gremium ist: "+ gremium);
+		if(!gremium.equalsIgnoreCase("zero"))
 		{
-			ps.setString(1, (String)execute.getVariable("gremium"));
-			L.debug(ps.toString());
-			try(ResultSet rs = ps.executeQuery())
+			try(PreparedStatement ps = conn.prepareStatement(sql))
 			{
-				if(rs.next())
+				ps.setString(1, gremium);
+				L.debug(ps.toString());
+				try(ResultSet rs = ps.executeQuery())
 				{
-					L.info("Die id des ausgewaehlten Gremium ist: "+ rs.getInt("idGremium"));
-					execute.setVariable("idGremium", rs.getInt("idGremium"));
-				}
-				else
-				{
-					L.warn("Das ausgewahlte Gremium gibt es in der Datenbank nicht.");
+					if(rs.next())
+					{
+						L.info("Die id des ausgewaehlten Gremium ist: "+ rs.getInt("idGremium"));
+						execute.setVariable("idGremium", rs.getInt("idGremium"));
+					}
+					else
+					{
+						L.warn("Das ausgewahlte Gremium gibt es in der Datenbank nicht.");
+					}
 				}
 			}
+			L.info("Ende Auslesen des Gremiums");
 		}
-		L.info("Ende Auslesen des Gremiums");
+		else
+		{
+			L.info("Person ist in keinem Gremium. Gremiumvariable wird auf null gesetzt");
+			execute.setVariable("idGremium", null);
+		}
 		
 	}
 

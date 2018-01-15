@@ -25,6 +25,11 @@
     <bpmn:serviceTask id="ServiceTask_0tioitk" name="Prüfung Kundenkonto" camunda:class="Projektarbeit.SubProc.PruefenKundenkonto">
       <bpmn:incoming>SequenceFlow_1yz3006</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0rd1w46</bpmn:outgoing>
+      <bpmn:property id="Property_1blzzd2" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_168gq9a">
+        <bpmn:sourceRef>DataStoreReference_0zydqlo</bpmn:sourceRef>
+        <bpmn:targetRef>Property_1blzzd2</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ickgdf">
       <bpmn:incoming>SequenceFlow_1vhj0zj</bpmn:incoming>
@@ -162,6 +167,10 @@
       <bpmndi:BPMNShape id="ServiceTask_0x3vu5e_di" bpmnElement="ServiceTask_0x3vu5e">
         <dc:Bounds x="644" y="123" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataInputAssociation_168gq9a_di" bpmnElement="DataInputAssociation_168gq9a">
+        <di:waypoint xsi:type="dc:Point" x="398" y="138" />
+        <di:waypoint xsi:type="dc:Point" x="409" y="75" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
