@@ -12,10 +12,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
-
+/**
+ * 
+ * @author Chris Lohr
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von: René Heinze
+ * Zuletzt geaendert am: 12.01.2018
+ */
 public class ErstellungDMNVariablen implements JavaDelegate {
 	private static final Logger L =  (Logger) LoggerFactory.getLogger(ErstellungDMNVariablen.class);
 	@Override
+	/**
+	 * Stellt die Werte fuer das DMN Diagramm zusammen.
+	 * Ob die person ein STudent ist
+	 * Ob die person in einem Grmeium ist
+	 */
 	public void execute(DelegateExecution execute) throws Exception {
 		// TODO Auto-generated method stub
 		String sql;

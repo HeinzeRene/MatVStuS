@@ -15,12 +15,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
-
+/**
+ * 
+ * @author Marwin
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von:Marwin Möllers
+ * Zuletzt geaendert am: 15.01.2018
+ */
 public class AnlegenKonto implements JavaDelegate{
 
 	private static final Logger L = LoggerFactory.getLogger(AnlegenKonto.class);
 	private int idPerson = -1;
-	
+	/**
+	 * Legt ein Kundenkonto aus den Eingaben ein der DB an.
+	 * Es wird auch die Verbindung zwischen Gremium und Person erstellt.
+	 */
 	public void execute(DelegateExecution execution) throws Exception {
 	
 		Connection conn = null;

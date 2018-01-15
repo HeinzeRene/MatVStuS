@@ -21,6 +21,9 @@ public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 	private static final Logger L = LoggerFactory.getLogger(MailAbsageVerfuegbarkeit.class);
 
 	@Override
+	/**
+	 * Erstellt und versendet die Email
+	 */
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		
@@ -46,7 +49,14 @@ public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 			String subject = "Ihre Leihanfrage - Absage mangels Verfügbarkeit";
 			sendEmail(mailtext, subject, eMailAdresse);
 		}
-
+	/**
+	 * Versendet eine Email mit Anhang
+	 * Faengt bei Falsche EMailadresse die Exception ab
+	 * @param mailtext Haupttext der Mail als String
+	 * @param subject Betreff der Email als String
+	 * @param toEmail Die Empfaenger Emailadresse
+	 * @throws EmailException 
+	 */
 	public void sendEmail(String mailtext, String subject, String toEmail) throws EmailException {
 		//https://anleitungen.rz.htw-berlin.de/de/email/e-mail_programm/
 

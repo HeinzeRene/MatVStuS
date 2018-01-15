@@ -15,7 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
-
+/**
+ * 
+ * @author Chris Lohr
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von:René Heinze
+ * Zuletzt geaendert am: 01.01.2018
+ */
 public class ErstellungLeihscheinVariablen implements JavaDelegate {
 
 	private static final Logger L =  LoggerFactory.getLogger(ErstellungLeihscheinVariablen.class);
@@ -25,6 +31,9 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 	
 	
 	@Override
+	/**
+	 * Stellt die Variablen fuer die ERstellung des Leihscheins zusammen
+	 */
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		L.info("Start Class ErstellungLeihscheinVariablen");
@@ -132,7 +141,12 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 		
 		
 	}
-	
+	/**
+	 * Erstellt aus einem Datum und einer Uhrzeit einen Timestamp
+	 * @param datum Datum als String im Format "TT.MM.JJJJ"
+	 * @param uhrzeit Uhrzeit als Sring in der Form "SS:MM"
+	 * @return Ein Timestamp dass das Datum und die Uhrzeiten representiert
+	 */
 	private Timestamp getTimestamp(String datum, String uhrzeit)
 	{
 		String[] d = datum.split("\\.");

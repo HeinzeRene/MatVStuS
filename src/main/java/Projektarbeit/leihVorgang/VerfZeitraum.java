@@ -14,12 +14,22 @@ import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
 import Projektarbeit.model.Zeitraum;
-
+/**
+ * Ueberprueft ob es fuer den Angebebenen Zeitraum ein MaterialExemplar der MaterialArt gibt
+ * @author Chris Lohr
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von: Marwin Möllers
+ * Zuletzt geaendert am: 05.01.2018
+ */
 public class VerfZeitraum implements JavaDelegate{
 
 	private static final Logger L =  (Logger) LoggerFactory.getLogger(VerfZeitraum.class);
 
 	@Override
+	/**
+	 * Sucht ein MaterialExemplar fuer den Zeitraum heraus.
+	 * Wenn es keins gibt, wird das so in der Variable verfZeit gespeichert
+	 */
 	public void execute(DelegateExecution execute) throws Exception {
 		// TODO Auto-generated method stub
 		

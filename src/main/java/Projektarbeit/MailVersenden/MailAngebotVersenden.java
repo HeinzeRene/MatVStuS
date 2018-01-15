@@ -14,9 +14,18 @@ import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.EMailZugangsdaten;
 import Projektarbeit.leihVorgang.AngebotErstellen;
-
+/**
+ * Mail Klasse fuer die Versendung der Angebots
+ * @author René Heinze
+ * Erstellt am: 25.12.2017
+ * Zuletzt geaendert von: Marwin Möllers
+ * Zuletzt geaendert am: 15.01.2018
+ */
 public class MailAngebotVersenden implements JavaDelegate {
 	private static final Logger L = LoggerFactory.getLogger(MailAngebotVersenden.class);
+	/**
+	 *Sendet eine E-Mail mit dem Angebot an den Antragsteller und fordert zur Antwort auf
+	 */
 	public void execute(DelegateExecution execution) throws Exception {
 
 		String anrede = (String) execution.getVariable("anrede");

@@ -14,7 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
-
+/**
+ * 
+ * @author René Heinze
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von: Chris Lohr
+ * Zuletzt geaendert am: 15.01.2018
+ */
 public class PruefenKundenkonto implements JavaDelegate{
 
 	private int idPerson;
@@ -23,6 +29,10 @@ public class PruefenKundenkonto implements JavaDelegate{
 	
 	
 	@Override
+	/**
+	 * Errechnet, ob der Nutzer mit der Mail schon vorhanden ist.
+	 * Wenn er vorhanden ist, dann werden die Daten aus der Datenbank mit den Eingegebenen verglichen und gegebenenfalls werden die Daten aus der Datenbank mit den Daten aus dem Forumlar aktuallisiert
+	 */
 	public void execute(DelegateExecution execute) throws Exception {
 		// TODO Auto-generated method stub
 		Connection conn = null;

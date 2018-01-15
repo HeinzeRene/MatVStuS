@@ -10,7 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.EMailZugangsdaten;
-
+/**
+ * Versendet eine Mail mit der Erinnerung zu dem Angebot
+ * @author Marwin
+ * Erstellt am: 02.01.2018
+ * Zuletzt geaendert von: René Heinze
+ * Zuletzt geaendert am: 04.01.2018
+ */
 public class MailNachfrageAngebot implements JavaDelegate {
 	private static final Logger L = LoggerFactory.getLogger(MailNachfrageAngebot.class);
 	public void execute(DelegateExecution execution) throws Exception {

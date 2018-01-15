@@ -12,11 +12,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
-
+/**
+ * 
+ * @author Chris Lohr
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von: Marwin Möllers
+ * Zuletzt geaendert am: 15.01.2018
+ */
 public class EndeStartFormular implements JavaDelegate {
-
 	private static final Logger L =  (Logger) LoggerFactory.getLogger(EndeStartFormular.class);
 	@Override
+	/**
+	 * Errechnet die IDs fuer MaterialARt und Gremium
+	 */
 	public void execute(DelegateExecution execute) throws Exception {
 		// TODO Auto-generated method stub
 		String matBez = (String)execute.getVariable("matBez");
@@ -98,5 +106,6 @@ public class EndeStartFormular implements JavaDelegate {
 		}
 		
 	}
+	
 
 }
