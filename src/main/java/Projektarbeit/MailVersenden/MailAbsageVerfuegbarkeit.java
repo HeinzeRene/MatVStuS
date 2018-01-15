@@ -22,11 +22,15 @@ public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 			String vorname = (String) execution.getVariable("vorname");
 			String nachname = (String) execution.getVariable("nachname");
 			String eMailAdresse = (String) execution.getVariable("eMailAdresse");
+			String materialB = (String) execution.getVariable("matBez");
+			String leihBegin = (String)execution.getVariable("leihBegin");
+			String leihEnde = (String)execution.getVariable("leihEnde");
 			
 			L.info("Variablen ausgelesen: " + anrede + " " + vorname + " " + nachname + " " + eMailAdresse);
 			
 			String mailtext = "Sehr geehrte/er " + anrede + " " + vorname + " " + nachname + ",\n" 
 			+ "\nvielen Dank für Ihre Leihanfrage an die Initiative Studimeile."
+			+ "\ndas angefrage Material: " + materialB + " im Zeitraum von " + leihBegin+  " bis " + leihEnde
 			+ "\nWir sind eine anerkannte studentische Initiative, welche Aufgrund von finanzieller Unterstützung seitens der Studierendenschaft, dieses Angebot zur Verfügung stellt."		
 			+ "\nLeider müssen wir Ihnen mitteilen, dass die von Ihnen gewünschten Artikel, zum gewünschten Zeitpunkt nicht verfügbar sind."
 			+ "\n\nSie können gerne per Mail eine Anfrage stellen um freie Zeiträume zu erhalten. Die Aussagen sind dann aber nur für den ermittelte Zeitpunkt fixiert."
