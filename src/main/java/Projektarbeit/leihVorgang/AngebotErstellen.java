@@ -43,6 +43,7 @@ public class AngebotErstellen implements JavaDelegate {
 		return style;
 	}
 
+	//Methode um das aktuelle Datum als String zu bekommen
 	private String aktuellesDatum() {
 		GregorianCalendar now = new GregorianCalendar();
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);   // 14.04.12 
@@ -52,6 +53,7 @@ public class AngebotErstellen implements JavaDelegate {
 		return datum;
 	}
 	
+	//Methode fuer das Einfuegen von Leerzeilen im Excel-Dokument
 	public Collection<String> gaps(int rowAmount) {
 		Collection<String> collec = new ArrayList<String>();
 		for(int i = 0; i<rowAmount; i++)
@@ -91,6 +93,7 @@ public class AngebotErstellen implements JavaDelegate {
 
 		HSSFCellStyle style = createStyleForTitle(workbook);
 
+		//Definieren der Werte, welche in Spalte A existieren
 		ArrayList<String> column1 = new ArrayList<>();
 		column1.add("Studierendenschaft der HTW Berlin");
 		column1.add("Anerkannte studentische Initiative Studimeile");
@@ -99,7 +102,7 @@ public class AngebotErstellen implements JavaDelegate {
 		column1.addAll(gaps(3));
 		column1.add((String) execution.getVariable("anrede"));
 		column1.add((String) execution.getVariable("vorname") + " " + (String) execution.getVariable("nachname"));
-		column1.add("Matrikelnummer: " + (String) execution.getVariable("matrikelnummer"));
+		column1.add("Matrikelnummer: " + (String) execution.getVariable("matNr"));
 		column1.add((String) execution.getVariable("adresse"));
 		column1.addAll(gaps(1));
 		column1.add((String) execution.getVariable("plz") + " " + (String) execution.getVariable("wohnort"));
@@ -128,11 +131,14 @@ public class AngebotErstellen implements JavaDelegate {
 		column1.add("i.A.");
 		column1.add("(Unterschrift Ini-Mitglied)");
 		
+		//Eintragen in Spalte A von oben definierten Werten aus ArrayList
 		for (int i=0; i<column1.size(); i++) {
 			row = sheet.createRow(i);
 			cell = row.createCell(0, CellType.STRING);
 			cell.setCellValue(column1.get(i));
 		}
+		
+		//Eintrag von extra Daten in bereits erstellten Zeilen
 		row = sheet.getRow(0);
 		cell = row.createCell(4, CellType.STRING);
 		cell.setCellValue("Berlin, " + aktuellesDatum());
@@ -141,6 +147,7 @@ public class AngebotErstellen implements JavaDelegate {
 		cell = row.createCell(4, CellType.STRING);
 		cell.setCellValue("(Unterschrift Kunde)");
 		
+		//Autosize von Spalten A und E in Excel-Dokument
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(4);
 
