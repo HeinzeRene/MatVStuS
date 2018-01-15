@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.zip.DataFormatException;
 
@@ -19,7 +20,7 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 
 	private static final Logger L =  LoggerFactory.getLogger(ErstellungLeihscheinVariablen.class);
 	private int leihscheinNummer = -1;
-	private int seriennummer = -1;
+	private String seriennummer = "";
 	private String beschreibung = "";
 	
 	
@@ -47,7 +48,7 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 					+ sqle.getErrorCode());
 		}
 
-		L.info("Start einlesen von Leihscheindaten");
+		L.info("Erstellung Leihschein in leihschein");
 		String sql = "insert into leihschein (idPerson, anfangausleihe, endeausleihe)" + " values (?, ?, ?)";
 		L.info(sql);
 		try (PreparedStatement s = conn.prepareStatement(sql)) {
@@ -55,73 +56,80 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 			s.setInt(1, idPerson);
 			s.setTimestamp(2, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzUeber")));
 			s.setTimestamp(3, getTimestamp((String) execution.getVariable("endeausleihe"),(String)execution.getVariable("uhrzRueck")));
-			
-			try(ResultSet rs = s.executeQuery())
-			{
-				L.info("ES KOMMT ETWAS ZURUECK!!");
-			}
-			catch(SQLException e)
-			{
-				L.warn(e.getMessage());
-			}
+			s.executeUpdate();
 		} catch (SQLException e) {
 			L.error("" + e);
 			throw new DataFormatException();
 		}
-		L.info("Ende des Einlesens");
-		
 		L.info("Start auslesen der Leihscheinnummer");
-		sql = "select leihscheinNummer from leihschein where idPerson = ? and anfangausleihe = ? and endeausleihe = ? ";
+		sql = "select LAST_INSERT_ID() from leihschein";
 		L.info(sql);
-		try (PreparedStatement s = conn.prepareStatement(sql)){
-			s.setInt(1, (int) execution.getVariable("idPerson"));
-			s.setDate(2, ((java.sql.Date) execution.getVariable("anfangausleihe")));
-			L.info("idPerson zum Auslesen" + execution.getVariable("idPerson")); 
-			try(ResultSet rs = s.executeQuery())
+		try (Statement s = conn.createStatement()){
+			try(ResultSet rs = s.executeQuery(sql))
 			{				
-				
-				leihscheinNummer = rs.getInt(sql);
+				if(rs.next())
+				{
+					L.info(""+rs.getInt(1));
+				leihscheinNummer = rs.getInt(1);
 				execution.setVariable("leihscheinNummer", leihscheinNummer);
-				L.info("Ausgelesene Leihscheinnummer: " + rs.next() + " ,sprich: " + leihscheinNummer);	
+				L.info("Der Leihschein hat die Nummer: " + leihscheinNummer);	
+				}
+				else
+				{
+					L.warn("Es gibt kein letzten Leihschein eintrag");
+				}
 			}
 		} catch (SQLException e ) {
 			L.error("" + e);
 			throw new DataFormatException();	
 		}		
+		L.info("Ende Leihscheinerstellung");
+		L.info("Erstellung eintrag in materialLeihschein");
+		sql = "INSERT INTO materialLeihschein (leihscheinNummer, idMatExp, kaution) values(?,?,?)";
+		try(PreparedStatement ps =  conn.prepareStatement(sql))
+		{
+			int idMatExp = (int) execution.getVariable("matExemplarID");
+			double kaution = (double)execution.getVariable("kaution");
+			ps.setInt(1, leihscheinNummer);
+			ps.setInt(2, idMatExp);
+			ps.setDouble(3, kaution);
+			L.debug(ps.toString());
+			ps.executeUpdate();
+			L.info("materialLeihschein eintrag erstellt mit leihscheinNummer: " + leihscheinNummer+ " idMatExp: " +idMatExp+ " und kaution: " + kaution);
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		L.info("Ende erstellung materialLeihschein");
 		
-		L.info("Start auslesen der Seriennummer");
-		sql = "select seriennummer from MaterialExemplar me inner join materialLeihschein ml on me.idMatExp = ml.idMatExp where leihscheinNummer = ? ";
+		
+		
+		
+		
+		L.info("Start auslesen der Seriennummer und Beschreibung");
+		sql = "SELECT me.seriennummer, ma.beschreibung FROM MaterialExemplar me INNER JOIN materialLeihschein ml ON me.idMatExp = ml.idMatExp INNER JOIN MaterialArt ma ON ma.idMatArt=me.materialArt WHERE ml.leihscheinNummer = ?";
 		L.info(sql);
 		try (PreparedStatement s = conn.prepareStatement(sql)){
-			s.setInt(1, (int) execution.getVariable("leihscheinNummer"));
+			s.setInt(1, leihscheinNummer);
+			L.info(s.toString());
 			try(ResultSet rs = s.executeQuery())
 			{
-				seriennummer = rs.getInt(sql);
+				seriennummer = rs.getString("seriennummer");
 				execution.setVariable("seriennummer", seriennummer);
-				L.info("ausgelesene Seriennummer: " + rs.next() + " sprich: " + seriennummer);
+				L.info("ausgelesene Seriennummer: " + seriennummer);
+				
+				beschreibung = rs.getString("beschreibung");
+				execution.setVariable("beschreibung", beschreibung);
+				L.info("ausgelesene Beschreibung: " + beschreibung);
 
 			}
 		} catch (SQLException e ) {
 			L.error("" + e);
-			throw new DataFormatException();	
+			
 		}
 		
-		L.info("Start auslesen der Beschreibung/ Bezeichnung");
-		sql = "select beschreibung from MaterialArt ma inner join MaterialExemplar me on me.idMatExp = ma.idMatArt inner join materialLeihschein ml on ml.idMatExp = me.idMatExp where leihscheinNummer = ? ";
-		L.info(sql);
-		try (PreparedStatement s = conn.prepareStatement(sql)){
-			s.setInt(1, (int) execution.getVariable("leihscheinNummer"));
-			try(ResultSet rs = s.executeQuery())
-			{
-				beschreibung = rs.getString(sql);
-				execution.setVariable("beschreibung", beschreibung);
-				L.info("ausgelesene Beschreibung: " + rs.next() + " sprich: " + beschreibung);
-
-			}
-		} catch (SQLException e ) {
-			L.error("" + e);
-			throw new DataFormatException();	
-		}
+		
 		
 	}
 	
