@@ -9,19 +9,24 @@ import java.sql.Timestamp;
 import java.util.zip.DataFormatException;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
 
-public class ErstellungLeihscheinVariablen implements ExecutionListener {
+public class ErstellungLeihscheinVariablen implements JavaDelegate {
 
 	private static final Logger L =  LoggerFactory.getLogger(ErstellungLeihscheinVariablen.class);
-
+	private int leihscheinNummer = -1;
+	private int seriennummer = -1;
+	private String beschreibung = "";
+	
+	
+	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-
+		
+		L.info("Start Class ErstellungLeihscheinVariablen");
 		int idPerson = (int) execution.getVariable("idPerson");
 
 		Connection conn = null;
@@ -58,16 +63,18 @@ public class ErstellungLeihscheinVariablen implements ExecutionListener {
 		L.info("Ende des Einlesens");
 		
 		L.info("Start auslesen der Leihscheinnummer");
-		sql = "select leihscheinNummer from leihschein where idPerson = ? ";
+		sql = "select leihscheinNummer from leihschein where idPerson = ? and anfangausleihe = ? and endeausleihe = ? ";
 		L.info(sql);
 		try (PreparedStatement s = conn.prepareStatement(sql)){
 			s.setInt(1, (int) execution.getVariable("idPerson"));
+			s.setDate(2, ((Date) execution.getVariable("anfangausleihe"));
+			L.info("idPerson zum Auslesen" + execution.getVariable("idPerson")); 
 			try(ResultSet rs = s.executeQuery())
-			{
-				L.info("Ausgelesene Leihscheinnummer: " + rs.next());
+			{				
 				
-				execution.setVariable("leihscheinNummer", rs.next());
-
+				leihscheinNummer = rs.getInt(sql);
+				execution.setVariable("leihscheinNummer", leihscheinNummer);
+				L.info("Ausgelesene Leihscheinnummer: " + rs.next() + " ,sprich: " + leihscheinNummer);	
 			}
 		} catch (SQLException e ) {
 			L.error("" + e);
@@ -81,8 +88,9 @@ public class ErstellungLeihscheinVariablen implements ExecutionListener {
 			s.setInt(1, (int) execution.getVariable("leihscheinNummer"));
 			try(ResultSet rs = s.executeQuery())
 			{
-				L.info("ausgelesene Seriennummer: " + rs.next());
-				execution.setVariable("seriennummer", rs.next());
+				seriennummer = rs.getInt(sql);
+				execution.setVariable("seriennummer", seriennummer);
+				L.info("ausgelesene Seriennummer: " + rs.next() + " sprich: " + seriennummer);
 
 			}
 		} catch (SQLException e ) {
@@ -97,8 +105,9 @@ public class ErstellungLeihscheinVariablen implements ExecutionListener {
 			s.setInt(1, (int) execution.getVariable("leihscheinNummer"));
 			try(ResultSet rs = s.executeQuery())
 			{
-				L.info("ausgelesene Seriennummer: " + rs.next());
-				execution.setVariable("beschreibung", rs.next());
+				beschreibung = rs.getString(sql);
+				execution.setVariable("beschreibung", beschreibung);
+				L.info("ausgelesene Beschreibung: " + rs.next() + " sprich: " + beschreibung);
 
 			}
 		} catch (SQLException e ) {
@@ -115,10 +124,5 @@ public class ErstellungLeihscheinVariablen implements ExecutionListener {
 		return Timestamp.valueOf(""+d[2]+"-"+d[1]+"-"+d[0]+" "+u[0]+":"+u[1]+":00");
 	}
 
-	@Override
-	public void notify(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
