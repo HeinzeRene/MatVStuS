@@ -7,6 +7,8 @@ import org.apache.commons.mail.SimpleEmail;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
+import CamundaProjekt.leihVorgangStuS.EMailZugangsdaten;
+
 public class MailNachfrageAngebot implements JavaDelegate {
 
 	public void execute(DelegateExecution execution) throws Exception {
@@ -37,15 +39,15 @@ public class MailNachfrageAngebot implements JavaDelegate {
 		MultiPartEmail email = new MultiPartEmail();
 		email.setCharset("utf-8");
 		email.setSSL(true);
-		email.setSmtpPort(587);
+		email.setSmtpPort(EMailZugangsdaten.SMTPPORT);
 //		email.setHostName("mail.gmx.net");
 //		email.setAuthentication("XXXX@gmx.de", "XXXXXXX");
 //		email.addTo(toEmail);
 //		email.setFrom("XXXXXX@gmx.de");
-		email.setHostName("mail.students-htw.de");
-		email.setAuthentication("rheinze", "mdma.42");
+		email.setHostName(EMailZugangsdaten.HOSTNAME);
+		email.setAuthentication(EMailZugangsdaten.NUTZERNAME, EMailZugangsdaten.PASSWORT);
 		email.addTo(eMailAdresse);
-		email.setFrom("r.heinze@students-htw.de");
+		email.setFrom(EMailZugangsdaten.ABSENDER);
 		email.setSubject(subject);
 		email.setMsg(mailtext);
 		email.send();

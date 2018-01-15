@@ -7,6 +7,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import CamundaProjekt.leihVorgangStuS.EMailZugangsdaten;
 import Projektarbeit.SubProc.AnlegenKonto;
 
 public class MailAbsageVerfuegbarkeit implements JavaDelegate {
@@ -42,12 +43,12 @@ public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 		MultiPartEmail email = new MultiPartEmail();
 		email.setCharset("utf-8");
 		email.setSSL(true);
-		email.setSmtpPort(993);
+		email.setSmtpPort(EMailZugangsdaten.SMTPPORT);
 //		email.setSmtpPort(587) -> diese Informationen sind je Provider unterschiedlich
-		email.setHostName("mail.students-htw.de"); 
-		email.setAuthentication("rheinze", "mdma.42");
+		email.setHostName(EMailZugangsdaten.HOSTNAME); 
+		email.setAuthentication(EMailZugangsdaten.NUTZERNAME, EMailZugangsdaten.PASSWORT);
 		email.addTo(toEmail);
-		email.setFrom("r.heinze@stundents-htw.de");
+		email.setFrom(EMailZugangsdaten.ABSENDER);
 //		email.setHostName("mail.htw-berlin.de");
 //		email.setAuthentication("s0558270", "Chrischris123");
 //		email.addTo(toEmail);
