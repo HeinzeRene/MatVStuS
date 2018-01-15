@@ -36,23 +36,24 @@ public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 			sendEmail(mailtext, subject, eMailAdresse);
 		}
 
-		public void sendEmail(String mailtext, String subject, String eMailAdresse) throws EmailException {
-	
-			MultiPartEmail email = new MultiPartEmail();
-			email.setCharset("utf-8");
-			email.setSSL(true);
-			email.setSmtpPort(993);
-//			email.setHostName("mail.gmx.net");
-//			email.setAuthentication("XXXX@gmx.de", "XXXXXXX");
-//			email.addTo(toEmail);
-//			email.setFrom("XXXXXX@gmx.de");
-			email.setHostName("mail.students-htw.de");
-			email.setAuthentication("rheinze", "mdma.42");
-			email.addTo(eMailAdresse);
-			email.setFrom("r.heinze@students-htw.de");
-			email.setSubject(subject);
-			email.setMsg(mailtext);
-			email.send();
+	public void sendEmail(String mailtext, String subject, String toEmail) throws EmailException {
+		//https://anleitungen.rz.htw-berlin.de/de/email/e-mail_programm/
 
-		}
+		MultiPartEmail email = new MultiPartEmail();
+		email.setCharset("utf-8");
+		email.setSSL(true);
+		email.setSmtpPort(993);
+//		email.setSmtpPort(587) -> diese Informationen sind je Provider unterschiedlich
+		email.setHostName("mail.students-htw.de"); 
+		email.setAuthentication("rheinze", "mdma.42");
+		email.addTo(toEmail);
+		email.setFrom("r.heinze@stundents-htw.de");
+//		email.setHostName("mail.htw-berlin.de");
+//		email.setAuthentication("s0558270", "Chrischris123");
+//		email.addTo(toEmail);
+//		email.setFrom("s0558270@htw-berlin.de");
+		email.setSubject(subject);
+		email.setMsg(mailtext);
+		email.send();
+	}
 }
