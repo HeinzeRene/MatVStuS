@@ -24,12 +24,12 @@ public class MailAngebotVersenden implements JavaDelegate {
 		String nachname = (String) execution.getVariable("nachname");
 		int leihscheinNummer = (int) execution.getVariable("leihscheinNummer"); //-->Sollte nach Plan ein Integer sein - Prüfen!!
 		String eMailAdresse = (String) execution.getVariable("eMailAdresse");
-		String subject = "Ihre Leihanfrage zu" +(String)execution.getVariable("beschreibung") +"Leihscheinnummer: "+ leihscheinNummer + "/Übersendung Leihangebot";
+		String subject = "Ihre Leihanfrage zu " +(String)execution.getVariable("beschreibung") +" Leihscheinnummer: "+ leihscheinNummer + "/Übersendung Leihangebot";
 		String mailtext = "Sehr geehrte/er " + anrede + " " + vorname + " " + nachname + ",\n" 
 		+ "\nVielen Dank für Ihre Anfrage bei der Initiative Studimeile."
 		+ "\nWir sind eine anerkannte studentische Initiative, welche durch Mittel der Studierendenschaft der HTW Berlin finanziert wird."
 		+ "\n\n anbei übersenden wir Ihnen das Angebot zur Anfrage"
-		+ "\n Bitte beantworten Sie per Mail an: ini-studimeile@studets-htw.de, ob Sie dieses Angebot annehmen möchten."
+		+ "\n Bitte beantworten Sie per Mail an: ini-studimeile@students-htw.de, ob Sie dieses Angebot annehmen möchten."
 		+ "\n\nMit freundlichen Grüßen,\n die Initiative Studimeile.";
 
 		// https://docs.camunda.org/manual/7.5/user-guide/process-engine/variables/
