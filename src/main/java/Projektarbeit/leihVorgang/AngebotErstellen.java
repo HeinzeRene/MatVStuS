@@ -63,9 +63,9 @@ public class AngebotErstellen implements JavaDelegate {
 	}
 	public void execute(DelegateExecution execution) throws Exception {
 
-		String leihschein = (String) execution.getVariable("leihscheinNummer");
-		L.info("leihscheinNummer auslesen ergab: " + leihschein);
-		int leihscheinNummer = Integer.parseInt(leihschein);
+		int leihscheinNummer = (int) execution.getVariable("leihscheinNummer");
+		L.info("leihscheinNummer auslesen ergab: " + leihscheinNummer);
+		
 		L.info("" + leihscheinNummer);
 		
 		L.info("Dokument wird angelegt");
