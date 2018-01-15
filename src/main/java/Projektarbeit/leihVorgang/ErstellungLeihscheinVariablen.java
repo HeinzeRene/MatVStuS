@@ -52,7 +52,7 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 		String sql = "insert into leihschein (idPerson, anfangausleihe, endeausleihe)" + " values (?, ?, ?)";
 		L.info(sql);
 		try (PreparedStatement s = conn.prepareStatement(sql)) {
-			L.info(""+idPerson);
+			L.info("idPerson: "+idPerson);
 			s.setInt(1, idPerson);
 			s.setTimestamp(2, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzUeber")));
 			s.setTimestamp(3, getTimestamp((String) execution.getVariable("endeausleihe"),(String)execution.getVariable("uhrzRueck")));
@@ -115,19 +115,19 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 			L.info(s.toString());
 			try(ResultSet rs = s.executeQuery())
 			{
-				seriennummer = rs.getString("seriennummer");
-				execution.setVariable("seriennummer", seriennummer);
-				L.info("ausgelesene Seriennummer: " + seriennummer);
-				
-				beschreibung = rs.getString("beschreibung");
-				execution.setVariable("beschreibung", beschreibung);
-				L.info("ausgelesene Beschreibung: " + beschreibung);
+				if(rs.next())
+				{
+					seriennummer = rs.getString("seriennummer");
+					execution.setVariable("seriennummer", seriennummer);
+					L.info("ausgelesene Seriennummer: " + seriennummer);
+					
+					beschreibung = rs.getString("beschreibung");
+					execution.setVariable("beschreibung", beschreibung);
+					L.info("ausgelesene Beschreibung: " + beschreibung);
+				}
 
 			}
-		} catch (SQLException e ) {
-			L.error("" + e);
-			
-		}
+		} 
 		
 		
 		
