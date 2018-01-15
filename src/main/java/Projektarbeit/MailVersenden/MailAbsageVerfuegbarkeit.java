@@ -9,7 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.EMailZugangsdaten;
 import Projektarbeit.SubProc.AnlegenKonto;
-
+/**
+ * Versendet eine Mail an den Antragsteller in der die Absage mangels Verfuegbarkeit gemeldet wird
+ * @author Chris Lohr
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von: Marwin
+ * Zuletzt geaendert am: 15.01.2018
+ */
 public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 
 	private static final Logger L = LoggerFactory.getLogger(MailAbsageVerfuegbarkeit.class);

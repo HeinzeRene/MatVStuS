@@ -31,13 +31,23 @@ import org.slf4j.LoggerFactory;
 
 import CamundaProjekt.leihVorgangStuS.Datenbankzugang;
 import org.apache.poi.ss.usermodel.Cell;
-
+/**
+ * Erstellt das Angebot als Exceltabelle
+ * @author René Heinze
+ * Erstellt am: 23.12.2017
+ * Zuletzt geaendert von: Marwin Möllers
+ * Zuletzt geaendert am: 15.01.2018
+ */
 public class AngebotErstellen implements JavaDelegate {
 
 	private static final Logger L = LoggerFactory.getLogger(AngebotErstellen.class);
 	private int leihscheinNummer = -1;
 	private String datum;
-	
+	/**
+	 * Erstellt den STyle fuer den Titel
+	 * @param workbook das Workbook
+	 * @return den style fuer die Tabelle
+	 */
 	private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
 		HSSFFont font = workbook.createFont();
 		font.setBold(true);
@@ -45,8 +55,11 @@ public class AngebotErstellen implements JavaDelegate {
 		style.setFont(font);
 		return style;
 	}
-
-	//Methode um das aktuelle Datum als String zu bekommen
+	/**
+	 * Gibt das Aktuelle Datum als String zurueck
+	 * @return String nach dem Muster "DD.MM.JJJJ"
+	 */
+	
 	private String aktuellesDatum() {
 		GregorianCalendar now = new GregorianCalendar();
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);   // 14.04.12 
@@ -55,7 +68,11 @@ public class AngebotErstellen implements JavaDelegate {
 		System.out.println(datum);
 		return datum;
 	}
-	
+	/**
+	 * Gibt eine bestimmte Anzahl an leerzeichen zurueck
+	 * @param rowAmount die Anzahl der leerzeichen die zurueck gegeben werden sollen
+	 * @return Strings mit den leerzeichen
+	 */
 	//Methode fuer das Einfuegen von Leerzeilen im Excel-Dokument
 	public Collection<String> gaps(int rowAmount) {
 		Collection<String> collec = new ArrayList<String>();
@@ -64,6 +81,9 @@ public class AngebotErstellen implements JavaDelegate {
 		
 		return collec;
 	}
+	/**
+	 * Methode die Augefuert wird
+	 */
 	public void execute(DelegateExecution execution) throws Exception {
 
 		int leihscheinNummer = (int) execution.getVariable("leihscheinNummer");
@@ -119,8 +139,8 @@ public class AngebotErstellen implements JavaDelegate {
 		column1.add("Material: " + (String) execution.getVariable("beschreibung"));
 		column1.add("Serialnummer: " + (String) execution.getVariable("seriennummer"));
 		column1.add("Kautionsanteil: " + (double) execution.getVariable("kaution"));
-		column1.add("Übergabetermin: " + (String) execution.getVariable("anfangausleihe"));
-		column1.add("Rückgabetermin: " + (String) execution.getVariable("endeausleihe"));
+		column1.add("Übergabetermin: " + (String) execution.getVariable("anfangausleihe")+ " "+ (String) execution.getVariable("uhrzUeber"));
+		column1.add("Rückgabetermin: " + (String) execution.getVariable("endeausleihe")+ " " + (String)execution.getVariable("uhrzRueck"));
 		column1.addAll(gaps(1));
 		column1.add("Die Kaution richtet sich nach der Zugehörigkeit von Gremium und Immatrikulation an der HTW Berlin.");
 		column1.add("Bitte bringen sie den genannten Betrag bei der Übergabe in Bar mit.");
