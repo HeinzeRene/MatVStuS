@@ -23,6 +23,9 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.variable.impl.value.builder.FileValueBuilderImpl;
+import org.camunda.bpm.engine.variable.value.FileValue;
+import org.camunda.bpm.engine.variable.value.builder.FileValueBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,14 +157,18 @@ public class AngebotErstellen implements JavaDelegate {
 
 		L.info("Dokument wurde erstellt.");
 		leihscheinNummer = (int) execution.getVariable("leihscheinNummer");
-		String dateiPfad = "C:/Users/Erdmann/Documents/3. Semester/MAS/" + leihscheinNummer + "_Leihschein.xls";
+		String dateiPfad = "" + leihscheinNummer + "_Leihschein.xls";
 		File file = new File(dateiPfad);
-		file.getParentFile().mkdirs();
+//		file.getParentFile().mkdirs();
 		L.info("Dokument in " + file + " gespeichert.");
 		FileOutputStream outFile = new FileOutputStream(file);
 		workbook.write(outFile);
 		L.info("Datei auf der Festplatte gespeichert." + file.getAbsolutePath());
-		execution.setVariable("Leihschein", file);
+		FileValueBuilder build = new FileValueBuilderImpl(file.getName());
+		build = build.file(file);
+		
+				
+		execution.setVariable("Leihschein", build.create());
 	}
 	
 

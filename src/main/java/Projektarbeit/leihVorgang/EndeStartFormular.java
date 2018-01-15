@@ -86,6 +86,7 @@ public class EndeStartFormular implements JavaDelegate {
 			}
 		}
 		L.info("Ende Auslesen des Gremiums");
+		
 	}
 
 }
