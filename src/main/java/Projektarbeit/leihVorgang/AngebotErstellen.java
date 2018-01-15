@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.zip.DataFormatException;
 
@@ -49,6 +51,14 @@ public class AngebotErstellen implements JavaDelegate {
 		System.out.println(datum);
 		return datum;
 	}
+	
+	public Collection<String> gaps(int rowAmount) {
+		Collection<String> collec = new ArrayList<String>();
+		for(int i = 0; i<rowAmount; i++)
+			collec.add(" ");
+		
+		return collec;
+	}
 	public void execute(DelegateExecution execution) throws Exception {
 
 		String leihschein = (String) execution.getVariable("leihscheinNummer");
@@ -76,86 +86,64 @@ public class AngebotErstellen implements JavaDelegate {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Leihschein_" + execution.getVariable("leihscheinNummer"));
 
-		int rownum = 0;
 		Cell cell;
 		Row row;
 
 		HSSFCellStyle style = createStyleForTitle(workbook);
 
-		row = sheet.createRow(rownum);
-
-		cell = row.createCell(0, CellType.STRING);
-		cell.setCellValue("Studierendenschaft der HTW Berlin");
-
-		cell = row.createCell(5, CellType.STRING);
-		cell.setCellValue("Berlin,");
-
-		cell = row.createCell(6, CellType.STRING);
-		cell.setCellValue(aktuellesDatum());
-
-		cell = row.createCell(1, CellType.STRING);
-		cell.setCellValue("Anerkannte studentische Initiative Studimeile");
-		cell = row.createCell(2, CellType.STRING);
-		cell.setCellValue("Treskowallee 8");
-		cell = row.createCell(3, CellType.STRING);
-		cell.setCellValue("10318 Berlin");
-
-		cell = row.createCell(8, CellType.STRING);
-		cell.setCellValue((String) execution.getVariable("anrede"));
-		cell = row.createCell(9, CellType.STRING);
-		cell.setCellValue((String) execution.getVariable("vorname") + (String) execution.getVariable("nachname"));
-		cell = row.createCell(10, CellType.STRING);
-		cell.setCellValue("Matrikelnummer: " + (String) execution.getVariable("matrikelnummer"));
-		cell = row.createCell(11, CellType.STRING);
-		cell.setCellValue((String) execution.getVariable("adresse"));
-
-		cell = row.createCell(13, CellType.STRING);
-		cell.setCellValue((String) execution.getVariable("plz") + (String) execution.getVariable("wohnort"));
-		cell = row.createCell(14, CellType.STRING);
-		cell.setCellValue((String) execution.getVariable("eMailAdresse"));
-
-		cell = row.createCell(17, CellType.STRING);
-		cell.setCellValue("Leihschein: " + leihscheinNummer);
-		cell.setCellStyle(style);
-
-		cell = row.createCell(19, CellType.STRING);
-		cell.setCellValue("Vielen Dank für Ihre Anfrage.");
-		cell = row.createCell(20, CellType.STRING);
-		cell.setCellValue("Folgenden Leihschein haben wir nach Ihren Vorgaben erstellt:");
-
-		cell = row.createCell(22, CellType.STRING);
-		cell.setCellValue("Material: " + (String) execution.getVariable("beschreibung"));
-		cell = row.createCell(23, CellType.STRING);
-		cell.setCellValue("Serialnummer: " + (String) execution.getVariable("seriennummer"));
-		cell = row.createCell(24, CellType.STRING);
-		cell.setCellValue("Kautionsanteil: " + (double) execution.getVariable("kaution") + " €");
-		cell = row.createCell(25, CellType.STRING);
-		cell.setCellValue("Übergabetermin: " + (String) execution.getVariable("anfangausleihe"));
-		cell = row.createCell(26, CellType.STRING);
-		cell.setCellValue("Rückgabetermin: " + (String) execution.getVariable("endeausleihe"));
-
-		cell = row.createCell(28, CellType.STRING);
-		cell.setCellValue(
-				"Die Kaution richtet sich nach der Zugehörigkeit von Gremium und Immatrikulation an der HTW Berlin.");
-		cell = row.createCell(29, CellType.STRING);
-		cell.setCellValue("Bitte bringen sie den genannten Betrag bei der Übergabe in Bar mit.");
-		cell = row.createCell(30, CellType.STRING);
-		cell.setCellValue("Sie erhalten diesen bei vollständiger und funktionfähiger Rückgabe des Materials zurück.");
-
-		cell = row.createCell(32, CellType.STRING);
-		cell.setCellValue("Schadensbemerkung bei Übergabe (Datum:			");
-
-		cell = row.createCell(39, CellType.STRING);
-		cell.setCellValue("Schadensbemerkung bei Rückgabe (Datum:			");
-
+		ArrayList<String> column1 = new ArrayList<>();
+		column1.add("Studierendenschaft der HTW Berlin");
+		column1.add("Anerkannte studentische Initiative Studimeile");
+		column1.add("Treskowallee 8");
+		column1.add("10318 Berlin");
+		column1.addAll(gaps(3));
+		column1.add((String) execution.getVariable("anrede"));
+		column1.add((String) execution.getVariable("vorname") + " " + (String) execution.getVariable("nachname"));
+		column1.add("Matrikelnummer: " + (String) execution.getVariable("matrikelnummer"));
+		column1.add((String) execution.getVariable("adresse"));
+		column1.addAll(gaps(1));
+		column1.add((String) execution.getVariable("plz") + " " + (String) execution.getVariable("wohnort"));
+		column1.add((String) execution.getVariable("eMailAdresse"));
+		column1.addAll(gaps(2));
+		column1.add("Leihschein: " + leihscheinNummer);
+		column1.addAll(gaps(1));
+		column1.add("Vielen Dank für Ihre Anfrage.");
+		column1.add("Folgenden Leihschein haben wir nach Ihren Vorgaben erstellt:");
+		column1.addAll(gaps(1));
+		column1.add("Material: " + (String) execution.getVariable("beschreibung"));
+		column1.add("Serialnummer: " + (String) execution.getVariable("seriennummer"));
+		column1.add("Kautionsanteil: " + (double) execution.getVariable("kaution"));
+		column1.add("Übergabetermin: " + (String) execution.getVariable("anfangausleihe"));
+		column1.add("Rückgabetermin: " + (String) execution.getVariable("endeausleihe"));
+		column1.addAll(gaps(1));
+		column1.add("Die Kaution richtet sich nach der Zugehörigkeit von Gremium und Immatrikulation an der HTW Berlin.");
+		column1.add("Bitte bringen sie den genannten Betrag bei der Übergabe in Bar mit.");
+		column1.add("Sie erhalten diesen bei vollständiger und funktionfähiger Rückgabe des Materials zurück.");
+		column1.addAll(gaps(2));
+		column1.add("Schadensbemerkung bei Übergabe (Datum:			");
+		column1.add("Schadensbemerkung bei Rückgabe (Datum:			");
+		column1.addAll(gaps(5));
+		column1.add("Eure Ini Studimeile-Team");
+		column1.addAll(gaps(3));
+		column1.add("i.A.");
+		column1.add("(Unterschrift Ini-Mitglied)");
 		
-		cell = row.createCell(45, CellType.STRING);
-		cell.setCellValue("Eure Ini Studimeile-Team");
+		for (int i=0; i<column1.size(); i++) {
+			row = sheet.createRow(i);
+			cell = row.createCell(0, CellType.STRING);
+			cell.setCellValue(column1.get(i));
+		}
+		row = sheet.getRow(0);
+		cell = row.createCell(4, CellType.STRING);
+		cell.setCellValue("Berlin, " + aktuellesDatum());
+		
+		row = sheet.getRow(44);
+		cell = row.createCell(4, CellType.STRING);
+		cell.setCellValue("(Unterschrift Kunde)");
+		
+		sheet.autoSizeColumn(0);
+		sheet.autoSizeColumn(4);
 
-		cell = row.createCell(49, CellType.STRING);
-		cell.setCellValue("i.A.");
-		cell = row.createCell(50, CellType.STRING);
-		cell.setCellValue("(Unterschrift Ini-Mitglied)									(Unterschrift Kunde)");
 
 		L.info("Dokument wurde erstellt.");
 		leihscheinNummer = (int) execution.getVariable("leihscheinNummer");
