@@ -66,11 +66,6 @@
         <bpmn:targetRef>Property_12nbvcp</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:sendTask>
-    <bpmn:dataStoreReference id="DataStoreReference_01sngt7" name="Buchung">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="" event="start" />
-      </bpmn:extensionElements>
-    </bpmn:dataStoreReference>
     <bpmn:serviceTask id="Task_1ls8j08" name="Erstellung Leihschein" camunda:class="Projektarbeit.leihVorgang.AngebotErstellen">
       <bpmn:extensionElements>
         <camunda:executionListener class="Projektarbeit.leihVorgang.ErstellungLeihscheinVariablen" event="start" />
@@ -104,10 +99,10 @@
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ohuo6t</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11j5co2</bpmn:outgoing>
-      <bpmn:property id="Property_1owvom8" name="__targetRef_placeholder" />
+      <bpmn:property id="Property_1flxubl" name="__targetRef_placeholder" />
       <bpmn:dataInputAssociation id="DataInputAssociation_1mkvys5">
         <bpmn:sourceRef>DataStoreReference_01sngt7</bpmn:sourceRef>
-        <bpmn:targetRef>Property_1owvom8</bpmn:targetRef>
+        <bpmn:targetRef>Property_1flxubl</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_14rtkxc" sourceRef="Task_1ls8j08" targetRef="Task_1w4r4zb" />
@@ -199,15 +194,16 @@
     <bpmn:dataObjectReference id="DataObjectReference_0zdtsqz" dataObjectRef="DataObject_0meqkid" />
     <bpmn:dataObject id="DataObject_0meqkid" />
     <bpmn:dataStoreReference id="DataStoreReference_0r3sjqx" />
+    <bpmn:dataStoreReference id="DataStoreReference_01sngt7" name="Buchung" />
     <bpmn:textAnnotation id="TextAnnotation_1cwprht">    <bpmn:text>Abgleich zur Verfügung stehendes Material mit gewünschtem Leihzeitraum</bpmn:text>
 </bpmn:textAnnotation>
-    <bpmn:association id="Association_0o0g1di" sourceRef="DataStoreReference_01sngt7" targetRef="TextAnnotation_1cwprht" />
     <bpmn:association id="Association_1hr5uvj" sourceRef="DataObjectReference_0zdtsqz" targetRef="TextAnnotation_0vrs7z6" />
     <bpmn:association id="Association_0iqck4g" sourceRef="DataStoreReference_0r3sjqx" targetRef="TextAnnotation_0h2o7l8" />
     <bpmn:textAnnotation id="TextAnnotation_0h2o7l8">    <bpmn:text>Leihscheindaten sichern</bpmn:text>
 </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_0vrs7z6">    <bpmn:text>Leihschein mit notwendigen Daten</bpmn:text>
 </bpmn:textAnnotation>
+    <bpmn:association id="Association_0o0g1di" sourceRef="DataStoreReference_01sngt7" targetRef="TextAnnotation_1cwprht" />
   </bpmn:process>
   <bpmn:message id="Message_0x3uxnv" name="Message_22bdd9j" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -260,19 +256,9 @@
           <dc:Bounds x="163" y="243" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="DataStoreReference_01sngt7_di" bpmnElement="DataStoreReference_01sngt7">
-        <dc:Bounds x="503" y="-22" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="506" y="-49" width="44" height="13" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1cwprht_di" bpmnElement="TextAnnotation_1cwprht">
         <dc:Bounds x="612" y="-64" width="100" height="98" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_0o0g1di_di" bpmnElement="Association_0o0g1di">
-        <di:waypoint xsi:type="dc:Point" x="553" y="0" />
-        <di:waypoint xsi:type="dc:Point" x="612" y="-8" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_14rtkxc_di" bpmnElement="SequenceFlow_14rtkxc">
         <di:waypoint xsi:type="dc:Point" x="1240" y="122" />
         <di:waypoint xsi:type="dc:Point" x="1305" y="122" />
@@ -523,9 +509,19 @@
         <di:waypoint xsi:type="dc:Point" x="1355" y="-29" />
         <di:waypoint xsi:type="dc:Point" x="1355" y="82" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="DataStoreReference_01sngt7_di" bpmnElement="DataStoreReference_01sngt7">
+        <dc:Bounds x="503" y="-22" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="506" y="-49" width="44" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DataInputAssociation_1mkvys5_di" bpmnElement="DataInputAssociation_1mkvys5">
         <di:waypoint xsi:type="dc:Point" x="527" y="28" />
         <di:waypoint xsi:type="dc:Point" x="526" y="82" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0o0g1di_di" bpmnElement="Association_0o0g1di">
+        <di:waypoint xsi:type="dc:Point" x="553" y="0" />
+        <di:waypoint xsi:type="dc:Point" x="612" y="-8" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
