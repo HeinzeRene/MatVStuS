@@ -55,6 +55,13 @@ public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 //		email.setFrom("s0558270@htw-berlin.de");
 		email.setSubject(subject);
 		email.setMsg(mailtext);
-		email.send();
+		try
+		{
+			email.send();
+		}
+		catch(EmailException e)
+		{
+			L.warn("Die Absage EMail konnte nicht gesendet werden");
+		}
 	}
 }

@@ -65,7 +65,14 @@ public class MailAngebotVersenden implements JavaDelegate {
 		email.setSubject(subject);
 		email.setMsg(mailtext);
 		email.attach(ds, fileName, encoding);
-		email.send();
+		try
+		{
+			email.send();
+		}
+		catch(EmailException e)
+		{
+			L.warn("Die Angebots EMail konnte nicht gesendet werden");
+		}
 
 	}
 
