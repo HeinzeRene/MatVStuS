@@ -55,7 +55,7 @@ public class MailAbsageVerfuegbarkeit implements JavaDelegate {
 	 * @param mailtext Haupttext der Mail als String
 	 * @param subject Betreff der Email als String
 	 * @param toEmail Die Empfaenger Emailadresse
-	 * @throws EmailException 
+	 * @throws EmailException  wenn was mit der Email erstellung nicht funktioniert
 	 */
 	public void sendEmail(String mailtext, String subject, String toEmail) throws EmailException {
 		//https://anleitungen.rz.htw-berlin.de/de/email/e-mail_programm/

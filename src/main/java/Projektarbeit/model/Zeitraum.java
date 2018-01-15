@@ -56,8 +56,8 @@ public class Zeitraum {
 	}
 	/**
 	 * Uebreprueft ob sich zwei Zeitraeume ueberschneiden
-	 * @param z2
-	 * @return
+	 * @param z2 der Zweite Zeitraum der ueberprueft wird
+	 * @return true wenn sie sich ueberschendien, false wenn nicht
 	 */
 	public boolean ueberschneidung(Zeitraum z2)
 	{
@@ -72,7 +72,7 @@ public class Zeitraum {
 	}
 	/**
 	 * Erstellt einen String aus dem Zeitraum
-	 * @return String im Format "Anfang<->Ende"
+	 * @return String im Format "Anfang--Ende"
 	 */
 	public String toString()
 	{
