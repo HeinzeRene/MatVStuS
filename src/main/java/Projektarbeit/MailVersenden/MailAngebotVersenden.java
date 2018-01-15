@@ -17,7 +17,7 @@ public class MailAngebotVersenden implements JavaDelegate {
 		String anrede = (String) execution.getVariable("anrede");
 		String vorname = (String) execution.getVariable("vorname");
 		String nachname = (String) execution.getVariable("nachname");
-		String leihscheinNummer = (String) execution.getVariable("leihscheinNummer"); //-->Sollte nach Plan ein Integer sein - Prüfen!!
+		int leihscheinNummer = (int) execution.getVariable("leihscheinNummer"); //-->Sollte nach Plan ein Integer sein - Prüfen!!
 		String eMailAdresse = (String) execution.getVariable("eMailAdresse");
 		String subject = "Ihre Leihanfrage " + leihscheinNummer + "/Übersendung Leihangebot";
 		String mailtext = "Sehr geehrte/er " + anrede + " " + vorname + " " + nachname + ",\n" 
