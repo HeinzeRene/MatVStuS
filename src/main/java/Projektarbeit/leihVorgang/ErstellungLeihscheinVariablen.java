@@ -55,7 +55,15 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 			s.setInt(1, idPerson);
 			s.setTimestamp(2, getTimestamp((String) execution.getVariable("anfangausleihe"),(String)execution.getVariable("uhrzUeber")));
 			s.setTimestamp(3, getTimestamp((String) execution.getVariable("endeausleihe"),(String)execution.getVariable("uhrzRueck")));
-			s.executeUpdate();
+			
+			try(ResultSet rs = s.executeQuery())
+			{
+				L.info("ES KOMMT ETWAS ZURUECK!!");
+			}
+			catch(SQLException e)
+			{
+				L.warn(e.getMessage());
+			}
 		} catch (SQLException e) {
 			L.error("" + e);
 			throw new DataFormatException();
@@ -67,7 +75,7 @@ public class ErstellungLeihscheinVariablen implements JavaDelegate {
 		L.info(sql);
 		try (PreparedStatement s = conn.prepareStatement(sql)){
 			s.setInt(1, (int) execution.getVariable("idPerson"));
-			s.setDate(2, ((Date) execution.getVariable("anfangausleihe"));
+			s.setDate(2, ((java.sql.Date) execution.getVariable("anfangausleihe")));
 			L.info("idPerson zum Auslesen" + execution.getVariable("idPerson")); 
 			try(ResultSet rs = s.executeQuery())
 			{				
